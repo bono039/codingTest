@@ -1,10 +1,10 @@
 # NOVICE MID | 프로그래밍 연습
 
 ### 01 함수
-#### - 값을 반환하지 않는 함수
-#### - 값을 반환하는 함수
-#### - Call by value / Call by reference
-#### - 변수의 영역
+- [x] 값을 반환하지 않는 함수
+- [ ] 값을 반환하는 함수
+- [ ] Call by value / Call by reference
+- [ ] 변수의 영역
 
 ### 02 재귀함수
 ### 03 정렬
