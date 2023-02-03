@@ -1,13 +1,16 @@
 class Solution {
     public int solution(int i, int j, int k) {
-        int cnt = 0;
+        int answer = 0;
         String str = ""; 
         
         for(int t=i ; t<=j ; t++) {
             str += Integer.toString(t);
         }
         
-        cnt = str.length() - str.replace(String.valueOf(k), "").length();
-        return cnt;
+        for(int t=0; t<str.length() ; t++) {
+            if(str.charAt(i) == 'k') answer++;
+        }
+        
+        return answer;
     }
 }
