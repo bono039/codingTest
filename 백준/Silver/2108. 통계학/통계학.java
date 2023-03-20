@@ -1,15 +1,17 @@
 import java.util.*;
+import java.io.*;
 
 public class Main
 {
-	public static void main(String[] args) {
-	    Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws IOException {
+	    var br = new BufferedReader(new InputStreamReader(System.in));
+	    //Scanner sc = new Scanner(System.in);
 	    
-	    int n = sc.nextInt();
+	    int n = Integer.parseInt(br.readLine());
 	    int[] list = new int[n];   
 	    
 	    for(int i=0 ; i < n ; i++) {
-	        list[i] = sc.nextInt();
+	        list[i] = Integer.parseInt(br.readLine());
 	    }
 	    
 	    Arrays.sort(list); 
