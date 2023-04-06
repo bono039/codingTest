@@ -1,19 +1,23 @@
+import java.util.*;
+
 class Solution {
     public int[] solution(String s) {
         int[] answer = new int[2];
         
-        while(s.length() > 1) { 
-            int cntOne = 0;     // 1 갯수 세기
-            
-            for(int i = 0 ; i < s.length() ; i++) {
-                if(s.charAt(i) == '0') answer[1]++;
-                else                   cntOne++;
-            }
-            
-            s = Integer.toBinaryString(cntOne);
-            answer[0]++;
-        }
+        int cnt = 0;
+        int convertCnt = 0;
         
+        while(!s.equals("1")) {
+            String newS = s.replaceAll("0", "");
+            int len = newS.length();
+            
+            cnt += s.length() - len;
+            s = Integer.toBinaryString(len);
+            convertCnt++;
+        }
+        answer[0] = convertCnt;
+        answer[1] = cnt;
+
         return answer;
     }
 }
