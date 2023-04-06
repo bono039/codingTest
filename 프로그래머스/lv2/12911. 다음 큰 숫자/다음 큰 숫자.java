@@ -1,30 +1,15 @@
-import java.util.*;
-
 class Solution {
     public int solution(int n) {
         int answer = 0;
-        String bin = Integer.toBinaryString(n);
         
-        // n에서 1의 갯수 구하기
-        int nCnt = 0;
-        for(int i = 0 ; i < bin.length() ; i++) {
-            if(bin.charAt(i) == '1') {
-                nCnt++;
-            }
-        }
+        int target = Integer.bitCount(n);    // 자연수 n을 이진수로 변환했을 때의 1의 개수
         
-        for(int i = n + 1 ;  ; i++) {
-            String tmpBin = Integer.toBinaryString(i);
-            int tmpCnt = 0;
+        // n을 1씩 증가시키며 2진수 표현에서의 1의 개수 계산
+        for(int i = n + 1 ; ; i++) {
+            int tmpCnt = Integer.bitCount(i);   // 새 수에서의 1의 개수
             
-            for(int j = 0 ; j < tmpBin.length() ; j++) {
-                if(tmpBin.charAt(j) == '1') {
-                    tmpCnt++;
-                }
-            }
-            
-            if(tmpCnt == nCnt) {
-                answer = i;
+            if(tmpCnt == target) {
+                answer= i;
                 break;
             }
         }
