@@ -12,10 +12,7 @@ public class Main {
 		for(int i = 0 ; i < len ; i++) {
 		    for(int j = i + 1 ; j <= len ; j++) {
 		        String str = S.substring(i, j);
-		        
-		        if(!set.contains(str)) {
-		            set.add(str);	
-		        }	            
+		        set.add(str);		            
 		    }
 		}
 				
