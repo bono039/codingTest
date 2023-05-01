@@ -3,9 +3,9 @@ import java.io.*;
 
 public class Main {
     static int N, M;
-    static int[] D;
-    static ArrayList<Node>[] A;
-    static boolean[] visited;
+    static int[] D;             // 최단 경로 배열
+    static ArrayList<Node>[] A; // 인접 리스트
+    static boolean visited[];
     
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -39,28 +39,27 @@ public class Main {
         System.out.println(dijkstra(startCity, endCity));
 	}
 	
-    public static int dijkstra(int start, int end) {
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.add(new Node(start, 0));
-        
+	
+	public static int dijkstra(int start, int end) {
+		PriorityQueue<Node> pq = new PriorityQueue<>();
+		pq.add(new Node(start, 0));
+		
         D[start] = 0;
-        
-        while(!pq.isEmpty()) {
-            Node nowNode = pq.poll();
-            
-            if(!visited[nowNode.node]) {
-                visited[nowNode.node] = true;
-
-                for(Node next : A[nowNode.node]) {
-                    if(!visited[next.node] && D[next.node] > D[nowNode.node] + next.value) {
-                        D[next.node] = D[nowNode.node] + next.value;
-                        pq.add(new Node(next.node, D[next.node]));
-                    }
-                }
-            }
-        }
-        return D[end];
-    }
+		
+		while(!pq.isEmpty()) {
+		    Node nowNode = pq.poll();
+		    if(visited[nowNode.node]) continue; // 중복 방지
+		    visited[nowNode.node] = true;
+		    
+		    for(Node next : A[nowNode.node]) {
+		        if(D[next.node] > D[nowNode.node] + next.value) {
+		            D[next.node] = D[nowNode.node] + next.value;
+		            pq.offer(new Node(next.node, D[next.node]));
+		        }
+		    }
+		}
+		return D[end];
+	}
 }
 
 class Node implements Comparable<Node>{
