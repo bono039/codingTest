@@ -17,19 +17,19 @@ public class Main {
 		    }
 		}
 		
-		long len = 0;
+		long max = 0;
 
         for(int i = 1 ; i <= n ; i++) {
             for(int j = 1 ; j <= m ; j++) {
-                // 현재 자리의 원래 값이 1이라면,
-                // 이 위치의 위.왼.대각선 왼쪽 위 값 中 가장 작은 값 + 1
                 if(DP[i][j] == 1) {
                     DP[i][j] = Math.min(Math.min(DP[i - 1][j - 1], DP[i][j - 1]), DP[i - 1][j]) + 1;
-                    len = Math.max(DP[i][j], len);  
                 }
+                if(max < DP[i][j]) {
+                    max = DP[i][j];
+                } 
             }
         }
-        System.out.println(len * len);
+        System.out.println(max * max);
 		br.close();
 	}
 }
