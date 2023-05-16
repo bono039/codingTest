@@ -21,7 +21,7 @@ public class Main {
 
         for(int i = 1 ; i <= n ; i++) {
             for(int j = 1 ; j <= m ; j++) {
-                if(DP[i][j] == 1) {
+                if(DP[i][j] == 1 && i > 0 && j > 0) {
                     DP[i][j] = Math.min(Math.min(DP[i - 1][j - 1], DP[i][j - 1]), DP[i - 1][j]) + 1;
                 }
                 if(max < DP[i][j]) {
