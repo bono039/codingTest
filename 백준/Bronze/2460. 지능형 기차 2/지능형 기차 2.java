@@ -8,6 +8,7 @@ public class Main {
 		int A[][] = new int[10001][2];
 		int DP[] = new int[10001];
 		
+		int max = 0;
 		for(int i = 1 ; i <= 10 ; i++) {
 		    StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		    A[i][0] = Integer.parseInt(st.nextToken());
@@ -15,9 +16,8 @@ public class Main {
 		    
 		    DP[0] = A[0][0] = A[0][1] = 0;
 		    DP[i] = DP[i-1] - A[i-1][0] + A[i-1][1];
+		    max = Math.max(max, DP[i]);
 		}
-		
-		Arrays.sort(DP);
-		System.out.println(DP[10000]);
+		System.out.println(max);
 	}
 }
