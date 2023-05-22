@@ -24,7 +24,7 @@ public class Main {
 		int sum = 0;
 		int answer = Integer.MAX_VALUE;
 		
-		while(true) {
+		while(left <= right) {
 		    if(sum >= S) {
 		        answer = Math.min(answer, right - left);
 		        sum -= arr[left++];
