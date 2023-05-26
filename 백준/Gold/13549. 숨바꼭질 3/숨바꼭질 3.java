@@ -16,14 +16,14 @@ public class Main {
 		if(N >= K) {
 		    System.out.println(N - K);
 		} else {
-		    System.out.println(bfs(N));
+		    System.out.println(bfs());
 		}
 	}
 	
-	static int bfs(int start) {
+	static int bfs() {
         Queue<Node> queue = new LinkedList<>();
-	    queue.add(new Node(start, 0));
-	    visited[start] = true;
+	    queue.add(new Node(N, 0));
+	    visited[N] = true;
 	    
 	    while(!queue.isEmpty()) {
             Node now = queue.poll();
