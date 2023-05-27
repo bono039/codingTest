@@ -30,8 +30,7 @@ public class Main {
 		    for(int j = 0 ; j < M ; j++) {
 		        if(map[i][j] == 1) continue;
 		        
-		        int tmp = bfs(i, j);
-    		    answer = tmp > answer ? tmp : answer;
+    		    answer = Math.max(answer, bfs(i, j));
 		    }
 		}		
 		
