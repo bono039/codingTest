@@ -5,26 +5,25 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
-		int[] cnt = new int[26];		
-        String str = br.readLine().toUpperCase();
+		String str = br.readLine().toUpperCase();
+		int[] alphabet = new int[26];
 		
-		int max = -1;
-		char ch = '?';
-		
-		for(int i=0 ; i < str.length() ; i++) {
-		    char c = str.charAt(i);
-		    
-		    cnt[c - 'A']++;
-		    
-		    if(max < cnt[c - 65]) {
-		        max = cnt[c - 65];
-		        ch = str.charAt(i);
-		    }
-		    else if(max == cnt[c - 65]) {
-		        ch = '?';
-		    }	    
+		for(int i = 0 ; i < str.length() ; i++) {
+		    alphabet[str.charAt(i) - 'A']++;
 		}
 		
+		int max = 0;
+		char ch = '?';
+		
+		for(int i = 0 ; i < alphabet.length ; i++) {
+		    if(alphabet[i] > max) {
+		        max = alphabet[i];
+		        ch = (char) (i + 65);
+		        
+		    } else if(alphabet[i] == max) {
+		        ch = '?';
+		    }
+		}
 		System.out.println(ch);
 	}
 }
