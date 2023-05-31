@@ -33,7 +33,7 @@ public class Main {
 		    for(int j = 1 ; j <= i ; j++) {
 		        if(i - 1 < 1 || j - 1 < 1) continue;
 		        
-		        dp[i][j] = Math.max(dp[i][j], Math.max(dp[i-1][j] + A[i][j], dp[i-1][j-1] + A[i][j]));
+		        dp[i][j] = Math.max(dp[i][j],  Math.max(dp[i-1][j], dp[i-1][j-1]) + A[i][j]);
 		        max = Math.max(max, dp[i][j]);
 		    }
 		}
