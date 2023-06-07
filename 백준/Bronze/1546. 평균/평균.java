@@ -16,7 +16,6 @@ public class Main {
             max = Math.max(max, arr[i]);
         }
         
-        double avg = 0;
         double sum = 0;
         for(int i = 0 ; i < N ; i++) {
             arr[i] = arr[i] / max * 100;
