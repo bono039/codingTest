@@ -22,17 +22,14 @@ public class Main {
             sum[i] = sum[i-1] + arr[i];
         }
         
+        long result = 0;
         for(int i = 0 ; i < M ; i++) {
             st = new StringTokenizer(br.readLine(), " ");
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
             
-            
-            if(a == b) {
-                sb.append(arr[a]).append("\n");
-            } else {
-                sb.append(sum[b] - sum[a - 1]).append("\n");
-            }
+            result = (a == b) ? arr[a] : (sum[b] - sum[a - 1]);
+            sb.append(result).append("\n");
         }
         System.out.println(sb);
     }
