@@ -4,12 +4,11 @@ import java.io.*;
 public class Main {
     static int N, M;
     static ArrayList<Integer>[] A;
-    static int[]     parent;
     static boolean[] visited;
+    static int cnt = 0;
     
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
 		
 		int N = Integer.parseInt(br.readLine());
 		int M = Integer.parseInt(br.readLine());
@@ -19,49 +18,26 @@ public class Main {
 		    A[i] = new ArrayList<>();
 		}
 		
-		parent = new int[N + 1];    // 101?
-		for(int i = 1 ; i <= N ; i++) {
-		    parent[i] = i;
-		}
-		
 		visited = new boolean[N + 1];
 		
-		for(int i = 0 ; i < M ; i++) {
-		    st = new StringTokenizer(br.readLine()," ");
-		    int a = Integer.parseInt(st.nextToken());
-		    int b = Integer.parseInt(st.nextToken());
+		while(M --> 0) {
+		    StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		    int s = Integer.parseInt(st.nextToken());
+		    int e = Integer.parseInt(st.nextToken());
 		    
-		    A[a].add(b);
-		    A[b].add(a);
+		    A[s].add(e);
+		    A[e].add(s);
 		}
 		
-		BFS(1);
-		
-		int cnt = 0;
-		for(int i : parent) {
-		    if(i == 1) {
-		        cnt++;
-		    }
-		}
-		System.out.println(cnt - 1);
+        bfs(1);
+        System.out.println(cnt);
 	}
 	
-	static void union(int a, int b) {
-	    a = find(a);
-	    b = find(b);
-	    
-	    if(a != b) parent[b] = a;
-	}
-	static int find(int n) {
-	    if(n == parent[n]) return n;
-	    return parent[n] = find(parent[n]);
-	}
-	
-	static void BFS(int n) {
-	    visited[n] = true;
+	private static void bfs(int num) {
+	    visited[num] = true;
 	    
 	    Queue<Integer> queue = new LinkedList<>();
-	    queue.offer(n);
+	    queue.add(num);
 	    
 	    while(!queue.isEmpty()) {
 	        int now = queue.poll();
@@ -69,8 +45,8 @@ public class Main {
 	        for(int next : A[now]) {
 	            if(!visited[next]) {
 	                visited[next] = true;
-	                union(now, next);
 	                queue.add(next);
+	                cnt++;
 	            }
 	        }
 	    }
