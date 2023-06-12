@@ -7,46 +7,40 @@ public class Main {
 		StringTokenizer st;
 		StringBuilder sb = new StringBuilder();
 		
-		int N = Integer.parseInt(br.readLine());
-		int[] A = new int[N];
+		int n = Integer.parseInt(br.readLine());
+		int[] A = new int[n];
 		
-		st = new StringTokenizer(br.readLine(), " ");
-		for(int i = 0 ; i < N ; i++) {
+		st = new StringTokenizer(br.readLine()," ");
+		for(int i = 0 ; i < n ; i++) {
 		    A[i] = Integer.parseInt(st.nextToken());
 		}
+		Arrays.sort(A);
 		
-		Arrays.sort(A); // 이진 탐색 위해 정렬
-		
-		// 존재하는지 비교할 숫자
-		int M = Integer.parseInt(br.readLine());
-		int[] B = new int[M];
-		
-		st = new StringTokenizer(br.readLine(), " ");
-		for(int i = 0 ; i < M ; i++) {
+		int m = Integer.parseInt(br.readLine());
+		st = new StringTokenizer(br.readLine()," ");
+		while(m --> 0) {
 		    boolean find = false;
 		    int target = Integer.parseInt(st.nextToken());
 		    
-		    int start = 0;
-		    int end = A.length - 1;
+		    int s = 0;
+		    int e = A.length - 1;
 		    
-		    while(start <= end) {
-		        int mid = (start + end) / 2; // 중앙값
+		    while(s <= e) {
+		        int mid = (s + e) / 2;
 		        
-		        if(A[mid] > target) {
-		            end = mid - 1;
-		        }
-		        else if(A[mid] < target) {
-		            start = mid + 1;
-		        }
-		        else {
+		        if(A[mid] == target) {
 		            find = true;
 		            break;
 		        }
-		        
+		        else if(A[mid] < target) {
+		            s = mid + 1;
+		        }
+		        else if(A[mid] > target) {
+		            e = mid - 1;
+		        }
 		    }
-            
-            if(find) sb.append(1).append("\n");
-            else     sb.append(0).append("\n");
+		    
+		    sb.append(find ? 1 : 0).append("\n");
 		}
 		System.out.println(sb);
 	}
