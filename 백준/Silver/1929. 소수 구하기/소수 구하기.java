@@ -5,31 +5,25 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		StringBuilder sb = new StringBuilder();
 		
-		int M = Integer.parseInt(st.nextToken());
-		int N = Integer.parseInt(st.nextToken());
-		int[] A = new int[N + 1];
+		int m = Integer.parseInt(st.nextToken());
+		int n = Integer.parseInt(st.nextToken());
 		
-		// 각 인덱스 값으로 초기화
-		for(int i = 2 ; i <= N ; i++) {
-		    A[i] = i;
-		}
+		boolean[] isPrime = new boolean[n + 1];
+		Arrays.fill(isPrime, true);
+		isPrime[0] = isPrime[1] = false;
 		
-		for(int i = 2 ; i <= Math.sqrt(N) ; i++) {
-		    if(A[i] == 0)
-		        continue;
-		    
-		    // 배수 지우기
-		    for(int j = i + i ; j <= N ; j = j + i) {
-		        A[j] = 0;
+		for(int i = 2 ; i <= n ; i++) {
+		    if(isPrime[i]) {
+		        for(int j = i + i ; j <= n ; j += i) {
+		            isPrime[j] = false;
+		        }
 		    }
 		}
 		
-		StringBuilder sb = new StringBuilder();
-		for(int i = M ; i<= N ; i++) {
-		    if(A[i] != 0) {
-		        sb.append(A[i]).append("\n");
-		    } 
+		for(int i = m ; i <= n ; i++) {
+		    if(isPrime[i]) sb.append(i).append("\n");
 		}
 		System.out.println(sb);
 	}
