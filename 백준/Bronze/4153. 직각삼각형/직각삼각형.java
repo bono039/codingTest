@@ -19,12 +19,8 @@ public class Main {
 		        return;
 		    }
 		    
-		    Arrays.sort(A);    
-		    if(A[0] * A[0] + A[1] * A[1] == A[2] * A[2]) {
-		        sb.append("right").append("\n");
-		    } else {
-		        sb.append("wrong").append("\n");
-		    }
+		    Arrays.sort(A);
+		    sb.append((A[0] * A[0] + A[1] * A[1] == A[2] * A[2]) ? "right" : "wrong").append("\n");
 		}
 	}
 }
