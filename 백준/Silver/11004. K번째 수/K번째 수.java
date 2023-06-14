@@ -20,7 +20,6 @@ public class Main {
 		System.out.println(A[K - 1]);
 	}
 	
-	// 퀵 정렬 메소드
 	public static void quickSort(int[] A, int S, int E, int K) {
 	    if(S < E) {
 	        int pivot = partition(A, S, E);
@@ -31,16 +30,14 @@ public class Main {
 	    }
 	}
 	
-	// 피벗 구하기 메소드
 	public static int partition(int[] A, int S, int E) {
-	    // 데이터가 2개인 경우, 바로 비교해 정렬
 	    if(S + 1 == E) {
 	        if(A[S] > A[E]) swap(A, S, E);
 	        return E;
 	    }
 	    
-	    int M = (S + E) / 2;    // 배열 중간 위치를 pivot으로 설정
-	    swap(A, S, M);          // 중앙값을 첫 번째 요소로 이동
+	    int M = (S + E) / 2;
+	    swap(A, S, M);
 	    
 	    
 	    int pivot = A[S];
@@ -48,25 +45,17 @@ public class Main {
 	    int j = E;
 	    
 	    while(i <= j) {
-	        // 피벗보다 큰 수가 나올 때까지 i++
-	        while(i <= E && pivot > A[i]) {
-	            i++;
-	        }	        
-	        // 피벗보다 작은 수가 나올 때까지 j--
-	        while(j >= S + 1 && pivot < A[j]) {
-	            j--;
-	        }
+	        while(pivot > A[i])    i++;
+	        while(pivot < A[j])    j--;
 	        
-	        // 찾은 i와 j를 swap
 	        if(i <= j) {
 	            swap(A, i++, j--);
 	        }
 	    }
 	    
-	    // 피벗 데이터를 나눠진 두 그룹의 경계 idx에 저장
 	    A[S] = A[j];
 	    A[j] = pivot;
-	    return j;   // 경계 idx 리턴
+	    return j;
 	}
 	
 	public static void swap(int[] A, int i, int j) {
