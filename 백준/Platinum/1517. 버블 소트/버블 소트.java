@@ -46,7 +46,7 @@ public class Main {
 	            l++;
 	        } else {
 	            A[idx] = tmp[r];
-	            cnt += r - idx;
+	            cnt += (m + 1 - l);
 	            r++;
 	        }
 	        idx++;
@@ -54,9 +54,6 @@ public class Main {
 	    
 	    while(l <= m) {
 	        A[idx++] = tmp[l++];
-	    }
-	    while(r <= e) {
-	        A[idx++] = tmp[r++];
 	    }
 	}
 }
