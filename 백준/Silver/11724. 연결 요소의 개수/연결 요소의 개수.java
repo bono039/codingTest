@@ -1,64 +1,51 @@
 import java.util.*;
 import java.io.*;
-
 public class Main {
-    static boolean visited[];
-	static ArrayList<Integer>[] A;    
+    static int N, M;
+    static ArrayList<Integer>[] A;
+    static boolean[] visited;
     
 	public static void main(String[] args) throws IOException {
-	    
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		int n = Integer.parseInt(st.nextToken());   // 정점
-		int m = Integer.parseInt(st.nextToken());   // 간선
+	    StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 	    
-	    // 방문 기록 저장 배열
-	    visited = new boolean[n+1];
+	    N = Integer.parseInt(st.nextToken());
+	    M = Integer.parseInt(st.nextToken());
 	    
-	    // 그래프 데이터 저장 인접 리스트
-	    A = new ArrayList[n+1];   
-	    
-	    // A 인접 리스트의 각 ArrayList 초기화하기
-	    for(int i=1 ; i < n+1 ; i++) {
-	        A[i] = new ArrayList<Integer>();
+	    A = new ArrayList[N + 1];
+	    for(int i = 1 ; i <= N ; i++) {
+	        A[i] = new ArrayList<>();
 	    }
 	    
-	    // A 인접 리스트에 그래프 데이터 저장하기
-	    for(int i=0 ; i < m ; i++) {
-	        st = new StringTokenizer(br.readLine());
-	        int start = Integer.parseInt(st.nextToken());
-	        int end   = Integer.parseInt(st.nextToken());
+	    visited = new boolean[N + 1];
+	    
+	    while(M --> 0) {
+	        st = new StringTokenizer(br.readLine(), " ");
+	        int u = Integer.parseInt(st.nextToken());
+	        int v = Integer.parseInt(st.nextToken());
 	        
-	        // 양쪽 방향으로 다 더해주기
-	        A[start].add(end);
-	        A[end].add(start);
+	        A[u].add(v);
+	        A[v].add(u);
 	    }
 	    
-	    int count = 0;
-	    
-	    // 0번은 안 씀!
-	    for(int i=1 ; i < n+1 ; i++) {
+	    int cnt = 0;
+	    for(int i = 1 ; i <= N ; i++) {
 	        if(!visited[i]) {
-	            count++;
-	            DFS(i);
+	            cnt++;
+	            dfs(i);
 	        }
 	    }
-	    System.out.println(count);
+	    
+		System.out.println(cnt);
 	}
 	
-	// DFS 구현
-	private static void DFS(int v) {
-	    // 현재 노드가 방문 노드인 경우
-	    if(visited[v]) return;
-	    visited[v] = true;
+	private static void dfs(int num) {
+	    if(visited[num]) return;
 	    
-	    
-	    // 현재 연결 노드 중 방문하지 않은 노드로 DFS 실행
-	    // ArrayList 실행
-	    for(int i : A[v]) {
-	        if(!visited[i]) {
-	            DFS(i); // 재귀함수
+	    visited[num] = true;
+	    for(int next : A[num]) {
+	        if(!visited[next]) {
+	            dfs(next);
 	        }
 	    }
 	}
