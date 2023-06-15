@@ -3,43 +3,43 @@ import java.io.*;
 
 public class Main {
     static int N;
+    static StringBuilder sb = new StringBuilder();
     
 	public static void main(String[] args) throws IOException {
-	    var br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	
+		N = Integer.parseInt(br.readLine());
+		
+		dfs(2, 1);
+		dfs(3, 1);
+		dfs(5, 1);
+		dfs(7, 1);
+		
+		System.out.println(sb);
+	}
+
+	private static void dfs(int n, int digit) {
+        if(digit == N) {
+            if(isPrime(n)) {
+                sb.append(n).append("\n");
+                return;
+            }
+        }
 	    
-	    N = Integer.parseInt(br.readLine());
-	    
-	    // 2,3,5,7
-	    DFS(2, 1);
-	    DFS(3, 1);
-	    DFS(5, 1);
-	    DFS(7, 1);  
+        for(int i = 1 ; i <= 9 ; i++) {
+            if(i % 2 == 0)  continue;
+            
+            if(isPrime(n*10 + i)) {
+                dfs(n*10 + i, digit + 1);
+            }
+        }
 	}
 	
-    // DFS 구현	
-	static void DFS(int num, int digit) {
-	    if(digit == N) {  // 자릿수 == N
-	        if(isPrime(num)) {
-	            System.out.println(num);
-	        }
-	        return;
-	    }
+	private static boolean isPrime(int num) {
+	    if(num == 1) return false;
 	    
-	    for(int i = 1 ; i < 10 ; i++) {
-	        if(i % 2 == 0) {
-	            continue;
-	        }
-	        
-	        if(isPrime(num * 10 + i)) {
-	            DFS(num * 10 + i, digit + 1);
-	        }
-	    }
-	}
-	
-	// 소수 구하기
-	static boolean isPrime(int n) {
-	    for(int i = 2 ; i <= (int)Math.sqrt(n) ; i++) {
-	        if(n % i == 0) {
+	    for(int i = 2 ; i <= (int)Math.sqrt(num) ; i++) {
+	        if(num % i == 0) {
 	            return false;
 	        }
 	    }
