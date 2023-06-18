@@ -3,31 +3,25 @@ import java.io.*;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-	    
-	    var br = new BufferedReader(new InputStreamReader(System.in));
-	    var st = new StringTokenizer(br.readLine(), " ");
-	    
-	    long N = Long.parseLong(st.nextToken());
-	    long K = Long.parseLong(st.nextToken());
-	    List<Long> list = new ArrayList<>();
-	    
-	    int cnt = 0;
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 		
-		for(int i = 0 ; i < N ; i++) {
-		    long num = Long.parseLong(br.readLine());
-		    
-		    if(num <= K) {
-		        list.add(num);
-		    }
+		int N = Integer.parseInt(st.nextToken());
+		int K = Integer.parseInt(st.nextToken());
+		int[] A = new int[N + 1];
+		
+		for(int i = 1 ; i <= N ; i++) {
+		    A[i] = Integer.parseInt(br.readLine());
 		}
 		
-		for(int i = list.size() - 1 ; i >= 0 ; i--) {
-		    if(list.get(i) <= K) {
-	            cnt += (K / list.get(i));
-	            K %= list.get(i);
+		int cnt = 0;
+		for(int i = N ; i >= 1 ; i--) {
+		    if(A[i] > K)    continue;
+		    else {
+		        cnt += K / A[i];
+		        K %= A[i];
 		    }
 		}
-		
 		System.out.println(cnt);
 	}
 }
