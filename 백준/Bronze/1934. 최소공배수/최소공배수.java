@@ -3,24 +3,25 @@ import java.io.*;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int T = Integer.parseInt(br.readLine());
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		StringBuilder sb = new StringBuilder();
 		
-		for(int i = 0 ; i < T ; i++) {
-		    StringTokenizer st = new StringTokenizer(br.readLine()," ");
-		    int A = Integer.parseInt(st.nextToken());
-		    int B = Integer.parseInt(st.nextToken());
+		int T = Integer.parseInt(br.readLine());
+		while(T-- > 0) {
+		    st = new StringTokenizer(br.readLine(), " ");
 		    
-		    int result = A * B / gcd(A, B);
-		    System.out.println(result);
+		    int a = Integer.parseInt(st.nextToken());
+		    int b = Integer.parseInt(st.nextToken());
+		    
+		    sb.append(a * b / getGCD(a, b)).append("\n");
 		}
+
+		System.out.println(sb);
 	}
 	
-	// 최대공약수 계산
-	public static int gcd(int a, int b) {
-	    if(b == 0)
-	        return a;
-	    else
-	        return gcd(b, a % b);
+	static int getGCD(int a, int b) {
+	    if(b == 0)  return a;
+	    return getGCD(b, a % b);
 	}
 }
