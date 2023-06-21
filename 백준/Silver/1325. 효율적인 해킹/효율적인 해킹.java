@@ -3,64 +3,65 @@ import java.io.*;
 
 public class Main {
     static int N, M;
-    static boolean visited[];       // 방문 배열
-    static ArrayList<Integer>[] A;  // 인접 리스트
-    static int answer[];            // 정답 배열
+    static ArrayList<Integer>[] A;
+    static boolean[] visited;
+    static int[] answer;
+	static int max = 0;
     
 	public static void main(String[] args) throws IOException {
-	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 		
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
+		
 		A = new ArrayList[N + 1];
-		answer = new int[N + 1];
-		// 인접 리스트 채우기
 		for(int i = 1 ; i <= N ; i++) {
 		    A[i] = new ArrayList<>();
-		}		
-		for(int i = 0 ; i < M ; i++) {
-		    st = new StringTokenizer(br.readLine()," ");
-		    
-		    int S = Integer.parseInt(st.nextToken());
-		    int E = Integer.parseInt(st.nextToken());
-		    
-		    A[S].add(E);
 		}
-	
-		// 모든 노드에 대해 BFS 수행
+		
+		visited = new boolean[N + 1];
+		answer = new int[N + 1];
+		
+		while(M --> 0) {
+		    st = new StringTokenizer(br.readLine(), " ");
+		    
+		    int s = Integer.parseInt(st.nextToken());
+		    int e = Integer.parseInt(st.nextToken());
+		    
+		    A[s].add(e);
+		}
+		
 		for(int i = 1 ; i <= N ; i++) {
 		    visited = new boolean[N + 1];
-		    BFS(i);
+		    bfs(i);
 		}
 		
-		int maxVal = 0;
+		StringBuilder sb = new StringBuilder();
 		for(int i = 1 ; i <= N ; i++) {
-		    maxVal = Math.max(maxVal, answer[i]);
+    	    if(answer[i] == max) {
+    	        sb.append(i).append(" ");
+    	    }
 		}
-		
-		for(int i = 1 ; i <= N ; i++) {
-		    if(answer[i] == maxVal) {
-		        System.out.print(i + " ");
-		    }
-		}
+		System.out.println(sb);
 	}
 	
-	public static void BFS(int node) {
-	    visited[node] = true;
+	static void bfs(int num) {
 	    Queue<Integer> queue = new LinkedList<>();
-	    queue.add(node);
+	    queue.add(num);
+	    visited[num] = true;
 	    
 	    while(!queue.isEmpty()) {
-	        int now_node = queue.poll();
+	        int now = queue.poll();
 	        
-            for(int i : A[now_node]) {
-                if(!visited[i]) {
-                    visited[i] = true;
-                    answer[i]++;    // 신규 노드 인덱스의 정답 배열 값 증가시킴
-                    queue.add(i);
-                }
-            }	        
+	        for(int next : A[now]) {
+	            if(!visited[next]) {
+	                visited[next] = true;
+	                answer[next]++;
+	                queue.add(next);
+	                max = Math.max(max, answer[next]);
+	            }
+	        }
 	    }
 	}
 }
