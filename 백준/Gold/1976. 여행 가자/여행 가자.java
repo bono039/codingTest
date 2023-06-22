@@ -2,61 +2,70 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    static int N, M;
     static int[] parent;
+    static int[][] map;
+    static int[] plan;
+    static boolean isPossible;
     
 	public static void main(String[] args) throws IOException {
-		Scanner sc = new Scanner(System.in);
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
 		
-		int n = sc.nextInt();    // 도시 수
-		int m = sc.nextInt();    // 여행 계획 도시 수
+		N = Integer.parseInt(br.readLine());    // 도시 수
+		M = Integer.parseInt(br.readLine());    // 여행 계획에 속한 도시들 수
 		
-		// 도시 연결 데이터 저장
-		int[][] city = new int[n + 1][n + 1];   // 인접 행렬
-		for(int i = 1 ; i <= n ; i++) {
-		    for(int j = 1 ; j <= n ; j++) {
-		        city[i][j] = sc.nextInt();
-		    }
-		}
-		
-		// 여행 계획
-		int[] route = new int[m + 1];
-		for(int i = 1 ; i <= m ; i++) {
-		    route[i] = sc.nextInt();
-		}
-		
-		// 대표 노드 자기 자신으로 초기화
-		parent = new int[n + 1];
-		for(int i = 1 ; i <= n ; i++) {
+		// 각종 배열, 변수 초기화하기
+
+		parent = new int[N + 1];
+		for(int i = 1 ; i <= N ; i++) {
 		    parent[i] = i;
 		}
+
+		isPossible = true;
 		
-		// 인접 행렬에서 도시가 연결되어 있으면 union
-		for(int i = 1 ; i <= n ; i++) {
-		    for(int j = 1 ; j <= n ; j++) {
-		        if(city[i][j] == 1) union(i,j);
+		
+		// N개 줄 연결 정보 입력 받기
+		map = new int[N + 1][N + 1];
+		for(int i = 1 ; i <= N ; i++) {
+		    st = new StringTokenizer(br.readLine(), " ");
+		    for(int j = 1 ; j <= N ; j++) {
+		        map[i][j] = Integer.parseInt(st.nextToken());
+		        
+		        if(map[i][j] == 1) {
+		            union(i,j);
+		        }
 		    }
 		}
+
 		
-		// 여행 계획 도시들이 1개의 대표 도시로 연결돼 있는지 확인
-		int idx = find(route[1]);
-		for(int i = 2 ; i < route.length ; i++) {
-		    if(idx != find(route[i])) {
-		        System.out.println("NO");
-		        return;
+		// 여행 계획 입력 받기
+		plan = new int[M + 1];
+		st = new StringTokenizer(br.readLine(), " ");
+		for(int i = 1 ; i <= M ; i++) {
+		    plan[i] = Integer.parseInt(st.nextToken());
+		}
+		
+		
+		// 여행 계획에서 find해서 모두 같은 집합일 때 (true) => YES
+		// 조합?
+		for(int i = 1 ; i < plan.length ; i++) {
+		    if(find(plan[i]) != find(plan[1])) {
+		        isPossible = false;
+		        break;
 		    }
 		}
-		System.out.println("YES");
+		System.out.println(isPossible ? "YES" : "NO");
 	}
 	
-	public static void union(int a, int b) {
+	static void union(int a, int b) {
 	    a = find(a);
 	    b = find(b);
 	    
-	    if(a != b)
-	        parent[b] = a;
+	    if(a != b) parent[b] = a;
 	}
-	public static int find(int a) {
+	static int find(int a) {
 	    if(a == parent[a]) return a;
-	    else               return parent[a] = find(parent[a]);
+	    return parent[a] = find(parent[a]);
 	}
 }
