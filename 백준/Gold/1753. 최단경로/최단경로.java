@@ -6,6 +6,7 @@ public class Main {
     static int INF = Integer.MAX_VALUE;
     
     static ArrayList<Node>[] A; // 인접 리스트
+    
     static int[] D;             // 최단 거리 배열
     
 	public static void main(String[] args) throws IOException {
@@ -29,8 +30,8 @@ public class Main {
 		Arrays.fill(D, INF);
 		D[K] = 0;
 		
-		for(int i = 1 ; i <= E ; i++) {
-		    st = new StringTokenizer(br.readLine(), " "); 
+		while(E --> 0) {
+		    st = new StringTokenizer(br.readLine(), " ");
 		    int u = Integer.parseInt(st.nextToken());
 		    int v = Integer.parseInt(st.nextToken());
 		    int w = Integer.parseInt(st.nextToken());
@@ -55,8 +56,8 @@ public class Main {
 		    Node now = pq.poll();
 		    
 		    for(Node next : A[now.node]) {
-		        if(D[next.node] > now.cost + next.cost) {
-		            D[next.node] = now.cost + next.cost;
+		        if(D[next.node] > D[now.node] + next.cost) {
+		            D[next.node] = D[now.node] + next.cost;
 		            pq.add(new Node(next.node, D[next.node]));
 		        }
 		    }
