@@ -2,84 +2,80 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static int V, E, K;
-    public static int[] D;
-    public static boolean visited[];
+    static int V, E, K;
+    static int INF = Integer.MAX_VALUE;
     
-    public static ArrayList<ArrayList<Edge>> A;
-    public static PriorityQueue<Edge> pq = new PriorityQueue<>();
+    static ArrayList<Node>[] A; // 인접 리스트
+    static int[] D;             // 최단 거리 배열
     
 	public static void main(String[] args) throws IOException {
-	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		StringBuilder sb = new StringBuilder();
 		
-		V = Integer.parseInt(st.nextToken());
-		E = Integer.parseInt(st.nextToken());
+		V = Integer.parseInt(st.nextToken());   // 정점
+		E = Integer.parseInt(st.nextToken());   // 간선
 		
-		K = Integer.parseInt(br.readLine());
+		K = Integer.parseInt(br.readLine());    // 시작 정점
 		
-		visited = new boolean[V + 1];		
-		
-		D = new int[V + 1];
-		Arrays.fill(D, Integer.MAX_VALUE);
-		
-		A = new ArrayList<>();
-		for(int i = 0 ; i <= V ; i++) {
-		    A.add(new ArrayList<>());
+		// 인접 리스트 초기화
+		A = new ArrayList[V + 1];
+		for(int i = 1 ; i <= V ; i++) {
+		    A[i] = new ArrayList<>();
 		}
+
+		// 최단 거리 배열 초기화
+		D = new int[V + 1];
+		Arrays.fill(D, INF);
+		D[K] = 0;
 		
 		for(int i = 1 ; i <= E ; i++) {
-		    st = new StringTokenizer(br.readLine()," ");
-		    
+		    st = new StringTokenizer(br.readLine(), " "); 
 		    int u = Integer.parseInt(st.nextToken());
 		    int v = Integer.parseInt(st.nextToken());
 		    int w = Integer.parseInt(st.nextToken());
 		    
-		    A.get(u).add(new Edge(v, w));
+		    A[u].add(new Node(v, w));
 		}
 		
+		dijkstra(K);
 		
-		// 다익스트라 수행
-		pq.add(new Edge(K, 0));
-		D[K] = 0;
+		for(int i = 1 ; i < D.length ; i++) {
+		    sb.append(D[i] == INF ? "INF" : D[i]).append("\n");
+		}
+		
+        System.out.println(sb);
+	}
+	
+	private static void dijkstra(int num) {
+	    PriorityQueue<Node> pq = new PriorityQueue<>();
+	    pq.add(new Node(num, 0));   // 큐에 탐색 시작점 추가
 		
 		while(!pq.isEmpty()) {
-		    Edge current = pq.poll();
-		    int c_ver = current.vertex;
-		    if(visited[c_ver]) continue;
-		    visited[c_ver] = true;
+		    Node now = pq.poll();
 		    
-		    for(int i = 0 ; i < A.get(c_ver).size() ; i++) {
-		        Edge tmp = A.get(c_ver).get(i);
-		        
-		        int next  = tmp.vertex;
-		        int value = tmp.value;
-		        
-		        if(D[next] > D[c_ver] + value) {
-		            D[next] = D[c_ver] + value;
-		            pq.add(new Edge(next, D[next]));
+		    for(Node next : A[now.node]) {
+		        if(D[next.node] > now.cost + next.cost) {
+		            D[next.node] = now.cost + next.cost;
+		            pq.add(new Node(next.node, D[next.node]));
 		        }
 		    }
-		}
-		
-		for(int i = 1 ; i <= V ; i++) {
-		    if(visited[i])
-		        System.out.println(D[i]);
-		    else
-		        System.out.println("INF");
-		}
+		}	    
 	}
 }
 
-class Edge implements Comparable<Edge> {
-    int vertex, value;
+
+class Node implements Comparable<Node> {
+    int node, cost;
     
-    Edge(int vertex, int value) {
-        this.vertex = vertex;
-        this.value  = value;
+    public Node(int node, int cost) {
+        this.node = node;
+        this.cost = cost;
     }
     
-    public int compareTo(Edge e) {
-        return Integer.compare(this.value, e.value);
+    // 우선순위 큐에서 사용 시 오름차순 정렬
+    @Override
+    public int compareTo(Node n) {
+        return this.cost - n.cost;
     }
 }
