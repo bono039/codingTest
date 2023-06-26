@@ -4,9 +4,9 @@ import java.io.*;
 public class Main {
     static int N, M;
     
-    static Edge[] edges;        // 에지 리스트
-    static long[] distance;     // 최단 경로 배열
-    static boolean isCycle = false;     // 음수 사이클 여부 판단
+    static Edge[] edges;
+    static long[] distance;
+    static boolean isCycle = false;
     static long INF = Integer.MAX_VALUE;
     
 	public static void main(String[] args) throws IOException {
@@ -16,17 +16,14 @@ public class Main {
 		
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
-		
-		// 변수들 초기화
+
 		edges = new Edge[M + 1];
-		
 		distance = new long[N + 1];
 		distance[1] = 0;
 		for(int i = 2 ; i <= N ; i++) {
 		    distance[i] = INF;
 		}
-		
-		// 버스 노선 정보 입력 받기
+
 		for(int i = 1 ; i <= M ; i++) {
 		    st = new StringTokenizer(br.readLine(), " ");
 		    int a = Integer.parseInt(st.nextToken());
@@ -36,7 +33,6 @@ public class Main {
 		    edges[i] = new Edge(a, b, c);
 		}
 		
-		// 1. 거리 배열 값 업데이트 (노드 개수 - 1번 반복)
 		for(int i = 1 ; i < N ; i++) {
 		    for(int j = 1 ; j <= M ; j++) {
 		        Edge edge = edges[j];
@@ -47,8 +43,6 @@ public class Main {
 		    }
 		}
 		
-		
-		// 2. 음수 사이클 유무 판단
 		for(int i = 1 ; i <= M ; i++) {
 		    Edge edge = edges[i];
 		    
