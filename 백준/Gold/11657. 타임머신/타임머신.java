@@ -3,67 +3,79 @@ import java.io.*;
 
 public class Main {
     static int N, M;
-    static long[] D;    // 최단 경로 배열
-    static Edge[] edges;// 에지 리스트
+    
+    static Edge[] edges;        // 에지 리스트
+    static long[] distance;     // 최단 경로 배열
+    static boolean isCycle = false;     // 음수 사이클 여부 판단
+    static long INF = Integer.MAX_VALUE;
     
 	public static void main(String[] args) throws IOException {
-	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		StringBuilder sb = new StringBuilder();
 		
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
 		
-		D = new long[N + 1];
-		Arrays.fill(D, Integer.MAX_VALUE);
-		D[1] = 0;
-		
+		// 변수들 초기화
 		edges = new Edge[M + 1];
-		for(int i = 1 ; i <= M ; i++) {
-		    st = new StringTokenizer(br.readLine()," ");
-		    int start = Integer.parseInt(st.nextToken());
-		    int end = Integer.parseInt(st.nextToken());
-		    int time = Integer.parseInt(st.nextToken());
-		    
-		    edges[i] = new Edge(start, end, time);
+		
+		distance = new long[N + 1];
+		distance[1] = 0;
+		for(int i = 2 ; i <= N ; i++) {
+		    distance[i] = INF;
 		}
 		
+		// 버스 노선 정보 입력 받기
+		for(int i = 1 ; i <= M ; i++) {
+		    st = new StringTokenizer(br.readLine(), " ");
+		    int a = Integer.parseInt(st.nextToken());
+		    int b = Integer.parseInt(st.nextToken());
+		    int c = Integer.parseInt(st.nextToken());
+
+		    edges[i] = new Edge(a, b, c);
+		}
+		
+		// 1. 거리 배열 값 업데이트 (노드 개수 - 1번 반복)
 		for(int i = 1 ; i < N ; i++) {
 		    for(int j = 1 ; j <= M ; j++) {
 		        Edge edge = edges[j];
-		        
-		        if(D[edge.start] != Integer.MAX_VALUE && D[edge.end] > D[edge.start] + edge.time) {
-		            D[edge.end] = D[edge.start] + edge.time;
+
+		        if(distance[edge.s] != INF && distance[edge.e] > distance[edge.s] + edge.t) {
+		            distance[edge.e] = distance[edge.s] + edge.t;
 		        }
 		    }
 		}
 		
-		boolean isCycle = false;
+		
+		// 2. 음수 사이클 유무 판단
 		for(int i = 1 ; i <= M ; i++) {
 		    Edge edge = edges[i];
-		    if(D[edge.start] != Integer.MAX_VALUE && D[edge.end] > D[edge.start] + edge.time) {
+		    
+		    if(distance[edge.s] != INF && distance[edge.e] > distance[edge.s] + edge.t) {
 		        isCycle = true;
 		        break;
-		    }   
+		    }
 		}
 		
 		if(!isCycle) {
-            for(int i = 2 ; i <= N ; i++) {
-                if(D[i] == Integer.MAX_VALUE) System.out.println("-1");
-                else                          System.out.println(D[i]);
-            }
+		    for(int i = 2 ; i <= N ; i++) {
+		        sb.append(distance[i] == INF ? "-1" : distance[i]).append("\n");
+		    }
 		}
 		else {
-		    System.out.println("-1");
+		    sb.append("-1").append("\n");
 		}
+		System.out.print(sb);
 	}
 }
 
 class Edge {
-    int start, end, time;
+    int s, e, t;
     
-    Edge(int start, int end, int time) {
-        this.start = start;
-        this.end = end;
-        this.time = time;
+    public Edge(int s, int e, int t) {
+        this.s = s;
+        this.e = e;
+        this.t = t;
     }
 }
