@@ -3,48 +3,57 @@ import java.io.*;
 
 public class Main {
     static int N;
-    static ArrayList<Integer> tree[];
-    static boolean visited[];
-    static int answer[];
+    static ArrayList<Integer>[] tree;
+    static boolean[] visited;
+    static int[] answer;
+    static StringBuilder sb = new StringBuilder();
     
 	public static void main(String[] args) throws IOException {
-	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
 		N = Integer.parseInt(br.readLine());
+		
+		tree = new ArrayList[N + 1];
+		for(int i = 1 ; i <= N ; i++) {
+		    tree[i] = new ArrayList<>();
+		}
 		visited = new boolean[N + 1];
 		answer = new int[N + 1];
 		
-		tree = new ArrayList[N + 1];
-		for(int i = 0 ; i < tree.length ; i++) {
-		    tree[i] = new ArrayList<>();
-		}
-		
-		for(int i = 1 ; i < N ; i++) {
-		    StringTokenizer st = new StringTokenizer(br.readLine()," ");
-		    int a = Integer.parseInt(st.nextToken());
-		    int b = Integer.parseInt(st.nextToken());
+		for(int i = 1 ; i <= N - 1 ; i++) {
+		    st = new StringTokenizer(br.readLine(), " ");
+		    int s = Integer.parseInt(st.nextToken());
+		    int e = Integer.parseInt(st.nextToken());
 		    
-		    tree[a].add(b);
-		    tree[b].add(a);
+            tree[s].add(e);
+            tree[e].add(s);
 		}
 		
-		DFS(1);
+		bfs(1);
 		
-		StringBuilder sb = new StringBuilder();
-		for(int i = 2 ; i <= N ; i++) {
-		    sb.append(answer[i] + "\n");
+        for(int i = 2 ; i <= N ; i++) {
+		    sb.append(answer[i]).append("\n");
 		}
-        System.out.println(sb);
+		System.out.println(sb);
 	}
 	
-	public static void DFS(int num) {
+	private static void bfs(int num) {
+	    Queue<Integer> queue = new LinkedList<>();
+	    queue.add(num);
+	    
 	    visited[num] = true;
 	    
-	    for(int i : tree[num]) {
-	        if(!visited[i]) {
-	            answer[i] = num;
-	            DFS(i);
+	    while(!queue.isEmpty()) {
+	        int now = queue.poll();
+	        
+	        for(int next : tree[now]) {
+	            if(!visited[next]) {
+	                visited[next] = true;
+	                answer[next] = now;
+	                queue.add(next);
+	            }
 	        }
 	    }
-	}	
+	}
 }
