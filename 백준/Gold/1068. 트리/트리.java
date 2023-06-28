@@ -2,58 +2,52 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static int N, deleteNode, answer;
-    static boolean visited[];
-    static ArrayList<Integer>[] tree;
+    static int N, root, delNode, answer;
+    static ArrayList<Integer>[] A;
+    static boolean[] visited;
     
 	public static void main(String[] args) throws IOException {
-	    Scanner sc = new Scanner(System.in);
-	    StringBuilder sb = new StringBuilder();
-	    
-		int N = sc.nextInt();
-		visited = new boolean[N];
-		
-		tree = new ArrayList[N];
-		for(int i = 0 ; i < N ; i++) {
-		    tree[i] = new ArrayList<>();
-		}
-		
-        int root = 0;		
-		for(int i = 0 ; i < N ; i++) {
-		    int p = sc.nextInt();
-		    
-		    if(p != -1) {
-		        tree[i].add(p);
-		        tree[p].add(i);
-		    } else {
-		        root = i;
-		    }
-		}
-		
-		deleteNode = sc.nextInt();
-		if(deleteNode == root) {
-		    sb.append(0);
-		} else {
-		    DFS(root);
-		    sb.append(answer);
-		}
-		
-		System.out.println(sb);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        N = Integer.parseInt(br.readLine());
+        
+        A = new ArrayList[N];
+        for(int i = 0 ; i < N ; i++) {
+            A[i] = new ArrayList<>();
+        }
+        visited = new boolean[N];
+        
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        for(int i = 0 ; i < N ; i++) {
+            int num = Integer.parseInt(st.nextToken());
+            if(num == -1) {
+                root = i;
+            } else {
+                A[num].add(i);
+                A[i].add(num);                
+            }
+        }
+        
+        delNode = Integer.parseInt(br.readLine());
+        if(delNode == root) {
+            System.out.println(0);
+        } else {
+            dfs(root);
+            System.out.println(answer);
+        }
 	}
 	
-	public static void DFS(int num) {
+	private static void dfs(int num) {
 	    visited[num] = true;
-	    int cNode = 0;
+	    boolean isLeaf = true;
 	    
-	    for(int i : tree[num]) {
-	        if(!visited[i] && i != deleteNode) { 
-	            cNode++;
-	            DFS(i);
+	    for(int next : A[num]) {
+	        if(!visited[next] && next != delNode) {
+	            isLeaf = false;
+	            dfs(next);
 	        }
 	    }
 	    
-	    if(cNode == 0) {
-	        answer++;
-	    }
+	    if(isLeaf) answer++;
 	}
 }
