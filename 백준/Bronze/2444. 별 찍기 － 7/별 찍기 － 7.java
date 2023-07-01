@@ -1,29 +1,25 @@
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		int N = sc.nextInt();
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 		
-		for(int i = 1; i <= N ; i++) {
-		    // 띄어쓰기
-			for(int j = 0; j < N-i; j++)
-				System.out.print(" ");
-				
-			// 별
-			for(int j = 0; j < i*2-1; j++)
-				System.out.print("*");
-				
-			System.out.println();
+		int N = Integer.parseInt(br.readLine());
+
+		for(int i = 1 ; i <= N - 1 ; i++) {
+		    sb.append(" ".repeat(N - i));            // 띄어쓰기
+            sb.append("*".repeat(2*(i - 1) + 1));    // 별
+            sb.append("\n");
 		}
 		
-		for(int i = N-1; i >= 0 ; i--) {
-			for(int j = 0; j < N-i; j++)
-				System.out.print(" ");
-			for(int j = 0; j < i*2-1; j++)
-				System.out.print("*");
-			
-			System.out.println();
+		for(int i = 1 ; i <= N ; i++) {
+		    sb.append(" ".repeat(i - 1));           // 띄어쓰기
+		    sb.append("*".repeat(2*(N - i) + 1));   // 별
+		    sb.append("\n");
 		}
+
+		System.out.println(sb);
 	}
 }
