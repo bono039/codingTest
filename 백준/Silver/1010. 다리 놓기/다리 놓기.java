@@ -7,8 +7,6 @@ public class Main {
         StringTokenizer st;
         StringBuilder sb = new StringBuilder();
         
-        int T = Integer.parseInt(br.readLine());
-
         int[][] dp = new int[31][31];
         for(int i = 0 ; i < 31 ; i++) {
             dp[i][0] = 1;
@@ -22,6 +20,7 @@ public class Main {
             }
         } 
         
+        int T = Integer.parseInt(br.readLine());
         while(T --> 0) {
             st = new StringTokenizer(br.readLine(), " ");
             int N = Integer.parseInt(st.nextToken());
