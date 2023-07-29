@@ -11,11 +11,10 @@ public class Main {
         int mm = Integer.parseInt(st.nextToken());
         int dd = Integer.parseInt(st.nextToken());
         
-        int days = 0;
+        int days = dd;
         for(int i = 1 ; i < mm ; i++) {
             days += month[i];
         }
-        days += dd;
         
         String answer = " ";
         switch(days % 7) {
