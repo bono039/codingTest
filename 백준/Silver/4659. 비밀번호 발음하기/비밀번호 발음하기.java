@@ -13,15 +13,9 @@ public class Main {
             String str = br.readLine();
             if(str.equals("end"))   break;
             
-            if(!checkOne(str)) {
+            if(!checkOne(str) || !checkTwo(str) || !checkThree(str)) {
                 isAcceptable = false;
-            }
-            if(!checkTwo(str)) {
-                isAcceptable = false;
-            }
-            if(!checkThree(str)) {
-                isAcceptable = false;
-            }            
+            }        
 
             if(isAcceptable) {
                 sb.append("<"+str+"> is acceptable.").append("\n");
