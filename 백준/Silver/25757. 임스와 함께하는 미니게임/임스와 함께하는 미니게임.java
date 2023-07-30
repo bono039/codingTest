@@ -12,10 +12,7 @@ public class Main {
         
         while(N --> 0) {
             String name = br.readLine();
-            
-            if(!set.contains(name)) {
-                set.add(name);
-            }
+            set.add(name);
         }
         
         int answer = 0;
