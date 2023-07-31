@@ -65,12 +65,11 @@ public class Main {
                 int nx = now[0] + dx[d];
                 int ny = now[1] + dy[d];
                 
-                if(nx>=0 && nx< n && ny>=0 && ny<m) {
-					if(!visited[nx][ny] && map[nx][ny]==1) {
-						visited[nx][ny]=true;
-						result[nx][ny]=result[now[0]][now[1]]+1;
-						queue.add(new int[] {nx,ny});
-					}
+                if(nx < 0 || nx >= n || ny < 0 || ny >= m)    continue;
+                if(!visited[nx][ny] && map[nx][ny] == 1) {
+                    visited[nx][ny]=true;
+                    result[nx][ny]=result[now[0]][now[1]]+1;
+                    queue.add(new int[] {nx,ny});
 				}
             }
         }
