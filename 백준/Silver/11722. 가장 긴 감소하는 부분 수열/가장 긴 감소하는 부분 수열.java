@@ -2,33 +2,46 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static int N;
-    static int[] arr, dp;
+    static int[] A, LIS;
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         
-        N = Integer.parseInt(br.readLine());
-        arr = new int[N];
-        dp = new int[N];
-        
+        int N = Integer.parseInt(br.readLine());
+        A = new int[N];
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         for(int i = 0 ; i < N ; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-            dp[i] = 1;
+            A[i] = Integer.parseInt(st.nextToken());
         }
         
-        int result = 0;
-        for(int i = N - 1 ; i >= 0 ; i--) {
-            for(int j = N - 1 ; j > i ; j--) {
-                if(arr[j] < arr[i]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
+        LIS = new int[N];
+        LIS[0] = A[0];
+        int end = 0;
+        
+        for(int i = 1 ; i < N ; i++) {
+            if(LIS[end] > A[i]) {
+                LIS[++end] = A[i];
             }
-            
-            result = Math.max(result, dp[i]);
+            else {
+                int targetIdx = binarySearch(end, i);
+                LIS[targetIdx] = A[i];
+            }
         }
         
-        System.out.println(result);
+        System.out.println(end + 1);
+    }
+    
+    private static int binarySearch(int end, int idx) {
+        int start = 0;
+        
+        while(start <= end) {
+            int mid = (start + end) / 2;
+            
+            if(LIS[mid] == A[idx])       return mid;
+            else if(LIS[mid] > A[idx])   start = mid + 1;
+            else if(LIS[mid] < A[idx])   end = mid - 1;
+        }
+        
+        return start;
     }
 }
