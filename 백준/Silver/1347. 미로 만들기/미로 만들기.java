@@ -24,9 +24,6 @@ public class Main{
         map[startY][startX] = '.';
         
         int dir = 2;
-        
-        int row = 1;
-        int col = 1;
 
         for(int i = 0 ; i < ch.length ; i++) {
             if(ch[i] == 'F') {     
