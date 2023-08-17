@@ -36,7 +36,8 @@ public class Main {
             for(int i = 0 ; i < N ; i++) {
                 for(int j = 0 ; j < N ; j++) {
                     if(!visited[i][j] && map[i][j] > k) {
-                        cnt += dfs(i, j, k);
+                        cnt++;
+                        dfs(i, j, k);
                     }
                 }
             }
@@ -45,7 +46,7 @@ public class Main {
         System.out.println(max);
     }
     
-    private static int dfs(int a, int b, int height) {
+    private static void dfs(int a, int b, int height) {
         visited[a][b] = true;
         
         for(int d = 0 ; d < 4 ; d++) {
@@ -58,6 +59,5 @@ public class Main {
                 dfs(x, y, height);
             } 
         }
-        return 1;
     }
 }
