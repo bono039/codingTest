@@ -36,7 +36,7 @@ public class Main {
             for(int i = 0 ; i < N ; i++) {
                 for(int j = 0 ; j < N ; j++) {
                     if(!visited[i][j] && map[i][j] > k) {
-                        cnt += bfs(i, j, k);
+                        cnt += dfs(i, j, k);
                     }
                 }
             }
@@ -45,25 +45,18 @@ public class Main {
         System.out.println(max);
     }
     
-    private static int bfs(int a, int b, int height) {
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[] {a, b});
+    private static int dfs(int a, int b, int height) {
         visited[a][b] = true;
         
-        while(!queue.isEmpty()) {
-            int[] now = queue.poll();
+        for(int d = 0 ; d < 4 ; d++) {
+            int x = a + dx[d];
+            int y = b + dy[d];
             
-            for(int d = 0 ; d < 4 ; d++) {
-                int x = now[0] + dx[d];
-                int y = now[1] + dy[d];
-                
-                if(x < 0 || y < 0 || x >= N || y >= N || visited[x][y])  continue;
-                
-                if(!visited[x][y] && map[x][y] > height) {
-                    visited[x][y] = true;
-                    queue.add(new int[] {x,y});
-                } 
-            }
+            if(x < 0 || y < 0 || x >= N || y >= N || visited[x][y])  continue;
+            
+            if(!visited[x][y] && map[x][y] > height) {
+                dfs(x, y, height);
+            } 
         }
         return 1;
     }
