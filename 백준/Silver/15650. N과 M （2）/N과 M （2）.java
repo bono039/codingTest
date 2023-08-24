@@ -19,18 +19,16 @@ public class Main {
         System.out.println(sb);
     }
     
-    public static void dfs(int at, int depth) {
+    private static void dfs(int tmp, int depth) {
         if(depth == M) {
-            for(int val : A) {
-                System.out.print(val +" ");
-            }
-            System.out.println();
+            for(int i : A)  sb.append(i).append(" ");
+            sb.append("\n");
             return;
         }
         
-        for(int i = at ; i <= N ; i++) {
+        for(int i = tmp ; i <= N ; i++) {
             A[depth] = i;
             dfs(i + 1, depth + 1);
-        } 
+        }
     }
 }
