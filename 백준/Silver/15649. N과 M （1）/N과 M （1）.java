@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+
 public class Main {
     static int N, M;
     static int[] A;
@@ -20,7 +21,7 @@ public class Main {
         System.out.println(sb);
     }
     
-    public static void dfs(int depth) {
+    private static void dfs(int depth) {
         if(depth == M) {
             for(int val : A) {
                 sb.append(val).append(" ");
@@ -31,8 +32,9 @@ public class Main {
         
         for(int i = 0 ; i < N ; i++) {
             if(!visited[i]) {
-                visited[i] = true;
                 A[depth] = i + 1;
+                
+                visited[i] = true;
                 dfs(depth + 1);
                 visited[i] = false;
             }
