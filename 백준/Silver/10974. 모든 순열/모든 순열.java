@@ -18,11 +18,11 @@ public class Main {
         result = new int[N];
         visited = new boolean[N];
         
-        back(0, 0);
+        back(0);
         System.out.println(sb);
     }
     
-    private static void back(int startIdx, int depth) {
+    private static void back(int depth) {
         if(depth == N) {
             for(int i : result) sb.append(i).append(" ");
             sb.append("\n");
@@ -34,7 +34,7 @@ public class Main {
                 result[depth] = A[i];
                 
                 visited[i] = true;
-                back(i + 1, depth + 1);
+                back(depth + 1);
                 visited[i] = false;
             }
         }
