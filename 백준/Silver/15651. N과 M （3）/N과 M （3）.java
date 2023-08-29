@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Main {
     static int N, M;
-    static int[] A;
+    static int[] A, result;
     static StringBuilder sb = new StringBuilder();
     
     public static void main(String[] args) throws IOException {
@@ -13,24 +13,26 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         
-        A = new int[M];
+        A = new int[N];
+        for(int i = 0 ; i < N ; i++) {
+            A[i] = i + 1;
+        }
+        result = new int[M];
         
-        dfs(0);
+        back(0, 0);
         System.out.println(sb);
     }
     
-    public static void dfs(int depth) {
+    private static void back(int start, int depth) {
         if(depth == M) {
-            for(int val : A) {
-                sb.append(val + " ");
-            }
+            for(int i : result) sb.append(i).append(" ");
             sb.append("\n");
             return;
         }
         
         for(int i = 0 ; i < N ; i++) {
-            A[depth] = i + 1;
-            dfs(depth + 1);
+            result[depth] = A[i];
+            back(i, depth + 1);
         }
     }
 }
