@@ -15,34 +15,32 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
         
         A = new int[N];
-        result = new int[M];
-        visited = new boolean[N];
-        
         st = new StringTokenizer(br.readLine(), " ");
         for(int i = 0 ; i < N ; i++) {
             A[i] = Integer.parseInt(st.nextToken());
         }
         Arrays.sort(A);
-        dfs(0, 0);
+        
+        result = new int[M];
+        visited = new boolean[N];
+        
+        back(0, 0);
         System.out.println(sb);
     }
     
-    private static void dfs(int at, int depth) {
+    private static void back(int startIdx, int depth) {
         if(depth == M) {
-            for(int i = 0 ; i < M ; i++) {
-                sb.append(result[i] + " ");
-            }
+            for(int i : result) sb.append(i).append(" ");
             sb.append("\n");
             return;
         }
         
-        for(int i = at ; i < N ; i++) {
-            if(!visited[i]) {
-                visited[i] = true;
-                result[depth] = A[i];
-                dfs(i, depth + 1);
-                visited[i] = false;               
-            }
+        for(int i = startIdx ; i < N ; i++) {
+            result[depth] = A[i];
+            
+            visited[i] = true;
+            back(i + 1, depth + 1);
+            visited[i] = false;
         }
     }
 }
