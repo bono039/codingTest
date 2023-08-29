@@ -3,8 +3,7 @@ import java.io.*;
 
 public class Main {
     static int N, M;
-    static int[] numbers;
-    static int[] arr;
+    static int[] A, result;
     static boolean[] visited;
     static StringBuilder sb = new StringBuilder();
     
@@ -15,34 +14,33 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         
-        numbers = new int[N];
-        arr = new int[N];
-        visited = new boolean[N];
-        
+        A = new int[N];
         st = new StringTokenizer(br.readLine(), " ");
         for(int i = 0 ; i < N ; i++) {
-            numbers[i] = Integer.parseInt(st.nextToken());
+            A[i] = Integer.parseInt(st.nextToken());
         }
-        Arrays.sort(numbers);
+        Arrays.sort(A);
         
-        dfs(0);
+        result = new int[M];
+        visited = new boolean[N];
+        
+        back(0, 0);
         System.out.println(sb);
     }
     
-    private static void dfs(int depth) {
+    private static void back(int startIdx, int depth) {
         if(depth == M) {
-            for(int i = 0 ; i < M ; i++) {
-                sb.append(arr[i] + " ");
-            }
+            for(int i : result) sb.append(i).append(" ");
             sb.append("\n");
             return;
         }
         
         for(int i = 0 ; i < N ; i++) {
             if(!visited[i]) {
+                result[depth] = A[i];
+                
                 visited[i] = true;
-                arr[depth] = numbers[i];
-                dfs(depth + 1);
+                back(i, depth + 1);
                 visited[i] = false;
             }
         }
