@@ -1,60 +1,64 @@
 import java.util.*;
+import java.io.*;
 
 public class Main {
-	static int n,max=Integer.MIN_VALUE;
+	static int N, max = Integer.MIN_VALUE;
 	static int[] durability, weight;
     
-	public static void main(String[] args) {
-		Scanner sc=new Scanner(System.in);
-		n=sc.nextInt();
-		durability=new int[n];
-		weight=new int[n];
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
 		
-
-		for(int i=0;i<n;i++) {
-			durability[i]=sc.nextInt();
-			weight[i]=sc.nextInt();
+		N = Integer.parseInt(br.readLine());
+		
+		durability = new int[N];
+		weight = new int[N];
+		
+		for(int i = 0 ; i < N ; i++) {
+		    st = new StringTokenizer(br.readLine(), " ");
+		    
+			durability[i] = Integer.parseInt(st.nextToken());
+			weight[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		backtracking(0);
+		back(0);
 		System.out.println(max);
 	}
 	
-	static void backtracking(int depth) {
-		// 마지막 계란인 경우
-		if(depth==n) {
-			int count=0;
-
-			for(int i=0;i<n;i++) 
-				if(durability[i]<=0)
-					count++;
+	private static void back(int depth) {
+		if(depth == N) {
+			int cnt = 0;
 			
-			max=Math.max(max, count);
+			for(int i = 0 ; i < N ; i++) 
+				if(durability[i] <= 0)
+					cnt++;
+			
+			max = Math.max(max, cnt);
 			return;
 		}
         
-		if(durability[depth]<=0)
-			backtracking(depth+1);
-		
+		if(durability[depth] <= 0)
+			back(depth + 1);
 		else {
-			boolean broken=false;
+			boolean broken = false;
             
-			for(int i=0;i<n;i++) {
-				if(i==depth||durability[i]<=0)
+			for(int i = 0 ; i < N ; i++) {
+				if(i == depth || durability[i] <= 0) 
 					continue;
                 
-				broken=true;
-				durability[i]-=weight[depth];
-				durability[depth]-=weight[i];
+				broken = true;
+				
+				durability[i] -= weight[depth];
+				durability[depth] -= weight[i];
                 
-				backtracking(depth+1);
+				back(depth + 1);
                 
-				durability[i]+=weight[depth];
-				durability[depth]+=weight[i];
+				durability[i] += weight[depth];
+				durability[depth] += weight[i];
 			}
             
-			if(broken==false)
-				backtracking(depth+1);
+			if(!broken)
+				back(depth + 1);
 		}
 	}
 }
