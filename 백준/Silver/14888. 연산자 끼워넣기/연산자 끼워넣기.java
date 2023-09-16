@@ -1,54 +1,57 @@
 import java.util.*;
 import java.io.*;
+
 public class Main {
-    public static int MAX = Integer.MIN_VALUE;
-    public static int MIN = Integer.MAX_VALUE;
-    public static int[] sign = new int[4];
-    public static int[] num;
-    public static int N;
+    static int N;
+    static int[] A;
+    static int[] signs = new int[4];
     
-	public static void main(String[] args) throws IOException {
-	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		N = Integer.parseInt(br.readLine());
-		num = new int[N];
-		
-		StringTokenizer st = new StringTokenizer(br.readLine()," ");
-		for(int i = 0 ; i < N ; i++) {
-		    num[i] = Integer.parseInt(st.nextToken());
-		}
-		
-        st = new StringTokenizer(br.readLine()," ");
-		for(int i = 0 ; i < 4 ; i++) {
-		    sign[i] = Integer.parseInt(st.nextToken());
-		}
+    static int max = Integer.MIN_VALUE;
+    static int min = Integer.MAX_VALUE;
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
         
-        DFS(num[0], 1);
+        N = Integer.parseInt(br.readLine());
+        A = new int[N];
         
-        System.out.println(MAX);
-        System.out.println(MIN);
-	}
-	
-	public static void DFS(int n, int idx) {
-	    if(idx == N) {
-	        MAX = Math.max(MAX, n);
-	        MIN = Math.min(MIN, n);
-	        return;
-	    }
-	    
-	    for(int i = 0 ; i < 4 ; i++) {
-	        if(sign[i] > 0) {
-	            sign[i]--;
-	            
-	            switch(i) {
-	                case 0: DFS(n + num[idx], idx + 1); break;
-	                case 1: DFS(n - num[idx], idx + 1); break;
-	                case 2: DFS(n * num[idx], idx + 1); break;
-	                case 3: DFS(n / num[idx], idx + 1); break;
-	            }
-	            
-	            sign[i]++;
-	        }
-	    }
-	}
+        st = new StringTokenizer(br.readLine(), " ");
+        for(int i = 0 ; i < N ; i++) {
+            A[i] = Integer.parseInt(st.nextToken());
+        }
+        
+        st = new StringTokenizer(br.readLine(), " ");
+        for(int i = 0 ; i < 4 ; i++) {
+            signs[i] = Integer.parseInt(st.nextToken());
+        }
+        
+        dfs(A[0], 1);
+        
+        System.out.println(max);
+        System.out.println(min);
+    }
+    
+    private static void dfs(int num, int idx) {
+        if(idx == N) {
+            max = Math.max(max, num);
+            min = Math.min(min, num);
+            return;
+        }
+        
+        for(int i = 0 ; i < 4 ; i++) {
+            if(signs[i] > 0) {
+                signs[i]--;
+                
+                switch(i) {
+                    case 0 : dfs(num + A[idx], idx + 1);    break;
+                    case 1 : dfs(num - A[idx], idx + 1);    break;
+                    case 2 : dfs(num * A[idx], idx + 1);    break;
+                    case 3 : dfs(num / A[idx], idx + 1);    break;
+                }
+                
+                signs[i]++;
+            } 
+        }
+    }
 }
