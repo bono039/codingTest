@@ -7,7 +7,7 @@ class Solution {
     static boolean[] visited;
     static int cnt = 0;
     
-    public int solution(int k, int[][] dungeons) {  // [최소 필요도, 소모 피로도]
+    public int solution(int k, int[][] dungeons) {
         this.k = k;
         this.dungeons = dungeons;
         
@@ -17,13 +17,13 @@ class Solution {
         return cnt;
     }
     
-    private static void back(int depth, int k) {        
+    private static void back(int depth , int k) {
         for(int i = 0 ; i < dungeons.length ; i++) {
             if(!visited[i] && dungeons[i][0] <= k) {
                 visited[i] = true;
-                back(depth + 1, k - dungeons[i][1]);    // 피로도 갱신
+                back(depth + 1, k - dungeons[i][1]);
                 visited[i] = false;
-            }
+            }            
         }
         
         cnt = Math.max(cnt, depth);
