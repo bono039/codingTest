@@ -1,5 +1,5 @@
 import java.util.*;
-
+// 조합 (DFS)
 class Solution {
     static int[] numbers;
     static int target;
@@ -9,18 +9,22 @@ class Solution {
         this.numbers = numbers;
         this.target = target;
         
-        dfs(0, 0);  // 더하기 갯수, 빼기 갯수, 현재 값
+        dfs(0, 0);
+        
         return cnt;
     }
     
     private static void dfs(int depth, int sum) {
         if(depth == numbers.length) {
-            if(target == sum) cnt++;
+            if(sum == target) {
+                cnt++;
+            }
+            return;
         }
-        else {
-            dfs(depth + 1, sum + numbers[depth]);
-            dfs(depth + 1, sum - numbers[depth]);
-        }
-        
+
+        // 현재 숫자를 더한 / 뺀 경우로 나눠 재귀 호출
+        dfs(depth + 1, sum + numbers[depth]);
+        dfs(depth + 1, sum - numbers[depth]);
+
     }
 }
