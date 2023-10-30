@@ -1,27 +1,37 @@
-class Solution {
+import java.util.*;
+
+class Solution {    
     public int[] solution(int[] sequence, int k) {
+        int[] answer = new int[] {0, sequence.length - 1};
         
-        int N = sequence.length;
-        int left = 0, right = N;
-        int sum = 0;
-        for(int L = 0, R = 0; L < N; L++) {
-            while(R < N && sum < k) {
-                sum += sequence[R++];
-            }
-            
+        int left = 0;
+        int right = 1;
+        
+        int sum = sequence[0];
+        
+        while(left < right) {
             if(sum == k) {
-                int range = R - L - 1;
-                if((right - left) > range) {
-                    left = L;
-                    right = R - 1;
-                }
+                change(right, left, answer);
+                sum -= sequence[left++];
             }
-            
-            sum -= sequence[L];
-        }
-        
-        int[] answer = {left, right};
+            else if(sum > k) {
+                sum -= sequence[left++];
+            }
+            else if(right < sequence.length) {
+                sum += sequence[right++];
+            }
+            else {
+                break;
+            }
+        } 
         
         return answer;
+    }
+    
+    private static void change(int right, int left, int[] answer) {
+        if((right - 1 - left) < (answer[1] - answer[0])) {
+            answer[0] = left;
+            answer[1] = right - 1;
+        }
     }
 }
