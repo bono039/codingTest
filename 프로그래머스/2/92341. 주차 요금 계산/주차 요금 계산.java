@@ -3,13 +3,14 @@ import java.util.*;
 class Solution {
     public int[] solution(int[] fees, String[] records) {
         
-        Map<String, String> map = new HashMap<>();
-        Map<String, Integer> feeMap = new HashMap<>();
+        Map<String, String> map = new HashMap<>();  // 차 번호, 시간
+        Map<String, Integer> feeMap = new TreeMap<>();  // 차 번호, 요금 (차량번호 기준 오름차순 정렬)
         
         for(int i = 0 ; i < records.length ; i++) {
             feeMap.put(records[i].split(" ")[1], 0);
         }
         
+        // IN-OUT 기록 둘 다 있는 경우
         for(int i = 0 ; i < records.length ; i++) {
             String[] infos = records[i].split(" ");
             
@@ -27,6 +28,7 @@ class Solution {
             }
         }
         
+        // IN 기록만 있는 경우
         for(String key : map.keySet()) {
             String[] inTime = map.get(key).split(":");
             
@@ -36,13 +38,9 @@ class Solution {
             feeMap.replace(key, feeMap.get(key) + 60 * HH + MM);
         }
         
-        List<Map.Entry<String,Integer>> list = new ArrayList(feeMap.entrySet());
-        Collections.sort(list, (o1, o2) -> {
-           return Integer.parseInt(o1.getKey()) > Integer.parseInt(o2.getKey()) ? 1 : Integer.parseInt(o1.getKey()) < Integer.parseInt(o2.getKey()) ? -1 : 0; 
-        });
+        List<Map.Entry<String,Integer>> list = new ArrayList(feeMap.entrySet());    // 차량번호 기준 정렬       
         
         int[] answer = new int[list.size()];
-        
         for(int i = 0 ; i < answer.length ; i++) {
             if(list.get(i).getValue() > fees[0]) {
                 answer[i] = fees[1] + (int)Math.ceil((list.get(i).getValue() - fees[0]) / (double)fees[2]) * fees[3];
