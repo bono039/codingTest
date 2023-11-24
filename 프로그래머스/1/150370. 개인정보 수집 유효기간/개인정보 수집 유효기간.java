@@ -40,17 +40,4 @@ class Solution {
         }
         return answer;
     }
-    
-    private static boolean getDiff(String target, String curr, int num) {
-        String[] targetStr = target.split(".");
-        String[] currStr = curr.split(".");
-        
-        int diff = 0;
-        diff += (Integer.parseInt(targetStr[0]) - Integer.parseInt(currStr[0])) + (Integer.parseInt(targetStr[1]) - Integer.parseInt(currStr[1])) + (Integer.parseInt(targetStr[2]) - Integer.parseInt(currStr[2]));
-        
-        if(diff <= 28 * num) {
-            return true;
-        }
-        return false;
-    }
 }
