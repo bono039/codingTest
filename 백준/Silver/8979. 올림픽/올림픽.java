@@ -1,7 +1,5 @@
 import java.util.*;
 import java.io.*;
-//금은동 배열 3개 만들면 넘 비효율적일 것 같아,,,,,
-// 아님 3/4차원 배열 만들어버려?ㅎ 이것도 아닌 것 같다
 
 public class Main {
     static int N, K;
@@ -52,7 +50,7 @@ public class Main {
 		
 		
 		// 찾는 등수 원소 구하기
-		System.out.println(list.get(endPoint).rank - 1);
+		System.out.println(list.get(endPoint).rank);
 	}
 }
 
@@ -67,12 +65,12 @@ class Node implements Comparable<Node>{
         this.rank = rank;
     }
     
-    // 금메달 순 순위 결정 (내림차순)
+    // 내림차순
     @Override
     public int compareTo(Node n) {
         if(this.g == n.g) {
-            if(this.s == this.s) {
-                return n.b - this.b;    // 내림차순
+            if(this.s == n.s) {
+                return n.b - this.b;
             }
             else {
                 return n.s - this.s;
