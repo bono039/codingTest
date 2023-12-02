@@ -16,6 +16,7 @@ public class Main {
         Arrays.sort(A);
         
         long gap = Integer.MAX_VALUE;
+        long[] ans = new long[2];
         
         int s = 0;
         int e = N - 1;
