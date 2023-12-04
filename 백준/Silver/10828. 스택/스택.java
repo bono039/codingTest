@@ -3,47 +3,37 @@ import java.io.*;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 		
-		int n = Integer.parseInt(br.readLine());
+		int N = Integer.parseInt(br.readLine());
 		
 		Stack<Integer> stack = new Stack<>();
-		List<Integer> list = new ArrayList<>();
 		
-		for(int i = 0 ; i < n ; i++) {
-		    String[] input = br.readLine().split(" ");
+		while(N --> 0) {
+		    String[] str = br.readLine().split(" ");
 		    
-		    if(input[0].equals("push")) {
-		        stack.push(Integer.parseInt(input[1]));
+		    if(str[0].equals("push")) {
+		        stack.push(Integer.parseInt(str[1]));
 		    }
-		    else if(input[0].equals("top")) {
-		        if(stack.isEmpty()) {
-		            list.add(-1);
-		        } else {
-		            list.add(stack.peek());
-		        }		        
+		    else if(str[0].equals("pop")) {
+		        sb.append(stack.isEmpty() ? -1 : stack.pop());
+		        sb.append("\n");
 		    }
-		    else if(input[0].equals("size")) {
-		        list.add(stack.size());
+		    else if(str[0].equals("size")) {
+		        sb.append(stack.size());
+		        sb.append("\n");
 		    }
-		    else if(input[0].equals("empty")) {
-		        if(stack.isEmpty()) {
-		            list.add(1);
-		        } else {
-		            list.add(0);
-		        }
+		    else if(str[0].equals("empty")) {
+		        sb.append(stack.isEmpty() ? 1 : 0);
+		        sb.append("\n");
 		    }
-		    else if(input[0].equals("pop")) {
-		        if(stack.isEmpty()) {
-		            list.add(-1);
-		        } else {
-		            list.add(stack.pop());
-		        }
+		    else if(str[0].equals("top")) {
+		        sb.append(stack.isEmpty() ? -1 : stack.peek());
+		        sb.append("\n");
 		    }
 		}
 		
-		for(int i : list) {
-		    System.out.println(i);
-		}
+		System.out.println(sb);
 	}
 }
