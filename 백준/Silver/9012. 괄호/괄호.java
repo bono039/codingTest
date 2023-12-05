@@ -3,35 +3,41 @@ import java.io.*;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 		
 		int T = Integer.parseInt(br.readLine());
-	    String[] arr = new String[T];
-	    
-		for(int i = 0 ; i < T ; i++) {
-		    Stack<String> stack = new Stack<>();
+		
+		while(T --> 0) {
+		    String str = br.readLine();
 		    
-		    String[] ss = br.readLine().split("");
-		    
-		    for(int j = 0 ; j < ss.length ; j++) {
-		        if(ss[j].equals("(")) {
-		            stack.push("(");
-		        }
-		        else {
-		            if(stack.isEmpty()) {
-		                stack.add(")");
-		            }
-		            else if(!stack.isEmpty() && stack.peek().equals("(")){
-		                stack.pop();
-		            }
-		        }
-		    }
-		    
-		    arr[i] = stack.isEmpty() ? "YES" : "NO";
+		    sb.append(solve(str) ? "YES" : "NO");
+		    sb.append("\n");
 		}
 		
-		for(String result : arr) {
-		    System.out.println(result);
-		}
+		System.out.println(sb);
+	}
+	
+	private static boolean solve(String str) {
+    	Stack<Character> stack = new Stack<>();
+	    char[] ch = str.toCharArray();
+	    
+	    for(int i = 0 ; i < ch.length ; i++) {
+	        if(ch[i] == '(') {
+	            stack.push('(');
+	        }
+	        else {
+	            if(!stack.isEmpty() && stack.peek() == '(') {
+	                stack.pop();
+	            }
+	            else {
+	                stack.push(ch[i]);
+	            }
+	        }
+	    }
+	    
+	    if(stack.isEmpty())
+	        return true;
+	    return false;
 	}
 }
