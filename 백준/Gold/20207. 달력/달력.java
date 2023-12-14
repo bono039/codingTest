@@ -26,16 +26,16 @@ public class Main {
 		int maxH = 0;
 		
 		for(int i = 0 ; i <= DAY_OF_YEAR ; i++) {
-		    if(cntArr[i] == 0) {
-		        total += w * maxH;
+		    if(cntArr[i] != 0) {
+                w++;
+    		    maxH = Math.max(maxH, cntArr[i]);
+		    }
+            else {
+                total += w * maxH;
 		        
 		        w = 0;
 		        maxH = 0;
-		        continue;
-		    }
-		    
-		    w++;
-		    maxH = Math.max(maxH, cntArr[i]);
+            }
 		}
 		
 		total += w * maxH;
