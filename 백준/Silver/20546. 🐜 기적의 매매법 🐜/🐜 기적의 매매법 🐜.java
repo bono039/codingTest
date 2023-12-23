@@ -2,61 +2,57 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    static int money;
+    static int[] arr;
+    
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		
-		int N = Integer.parseInt(br.readLine());
-		int[] arr = new int[14];
+		money = Integer.parseInt(br.readLine());
+		arr = new int[14];
+		
 		st = new StringTokenizer(br.readLine(), " ");
 		for(int i = 0 ; i < 14 ; i++) {
 		    arr[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		// [준현]
-		int money1 = N;
+		int money1 = money;
 		int stock1 = 0;
-        
-	    for(int i = 0 ; i < arr.length ; i++) {
-	        if(money1 / arr[i] > 0) {
-	            int cnt = money1 / arr[i];
-	            stock1 += cnt;
-	            money1 -= arr[i] * cnt;
-	        }
-	    }
 		
+		for(int i = 0 ; i < 14 ; i++) {
+		    int tmp = money1 / arr[i];
+		    
+		    if(tmp > 0) {
+		        money1 -= arr[i] * tmp;
+		        stock1 += tmp;
+		    }
+		}
 		
-		// [성민]
-		int money2 = N;
+		int money2 = money;
 		int stock2 = 0;
 		
-		for(int i = 0 ; i < arr.length - 3 ; i++) {
-		    if((arr[i] < arr[i + 1]) && (arr[i + 1] < arr[i + 2])) {
+		for(int i = 3 ; i < 14 ; i++) {
+		    if((arr[i - 3] < arr[i - 2]) && (arr[i - 2] < arr[i - 1])) {
 		        if(stock2 == 0) continue;
 		        
-		        money2 += arr[i + 3] * stock2;
-		        stock2 = 0;
+		        money2 += stock2 * arr[i];
+		        stock2 = 0;		        
 		    }
-		    else if((arr[i] > arr[i + 1]) && (arr[i + 1] > arr[i + 2])) {
-		        if(money2 / arr[i + 3] > 0) {
-    	            int cnt = money2 / arr[i + 3];
-    	            stock2 += cnt;
-    	            money2 -= arr[i + 3] * cnt;
-    	        }
+		    else if((arr[i - 3] > arr[i - 2]) && (arr[i - 2] > arr[i - 1])) {
+		        int tmp = money2 / arr[i];
+		        if(tmp > 0)  {
+		            money2 -= tmp * arr[i];
+		            stock2 += tmp;
+		        }
 		    }
 		}
 		
-		int profit1 = money1 + arr[arr.length - 1] * stock1;
-		int profit2 = money2 + arr[arr.length - 1] * stock2;
+		int jj = money1 + arr[13] * stock1;
+		int ss = money2 + arr[13] * stock2;
 		
-		if(profit1 > profit2) {
-		    System.out.println("BNP");
-		}
-		else if(profit1 < profit2) {
-		    System.out.println("TIMING");
-		}
-		else {
-		    System.out.println("SAMESAME");
-		}
+		if(jj > ss)         System.out.println("BNP");
+		else if(jj < ss)    System.out.println("TIMING");
+		else                System.out.println("SAMESAME");
 	}
 }
