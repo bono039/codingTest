@@ -3,43 +3,47 @@ import java.io.*;
 
 public class Main {
     static char[] ch;
+    static Stack<Integer> st;
     
-    static List<Node> brackets = new ArrayList<>();
+    static List<int[]> list = new ArrayList<>();
+    static boolean[] visited;
+    
     static Set<String> result = new TreeSet<>();
-    static boolean[] check;
+    
+    static StringBuilder sb = new StringBuilder();
     
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	    
 	    ch = br.readLine().toCharArray();
-	    Stack<Integer> stack = new Stack<>();
+	    
+	    st = new Stack<>();
 	    
 	    for(int i = 0 ; i < ch.length ; i++) {
 	        if(ch[i] == '(') {
-	            stack.push(i);
+	            st.push(i);
 	        }
 	        else if(ch[i] == ')') {
-	            brackets.add(new Node(stack.pop(), i));
+	            list.add(new int[] {st.pop(), i});
 	        }
 	    }
 	    
-	    check = new boolean[ch.length];
+	    visited = new boolean[ch.length];
 	    comb(0);
 	    
-	    Iterator<String> iter = result.iterator();  // set을 iterator 안에 담기
-	    while(iter.hasNext()) {
-	        System.out.println(iter.next());
+	    for(String s : result) {
+	        sb.append(s).append("\n");
 	    }
+	    System.out.println(sb);
 	}
 	
 	private static void comb(int depth) {
-	    if(depth == brackets.size()) {
+	    if(depth == list.size()) {
+	        StringBuilder tmp = new StringBuilder();
 	        boolean b = false;
 	        
-	        StringBuilder sb = new StringBuilder();
 	        for(int i = 0 ; i < ch.length ; i++) {
-	            if(!check[i]) {
-	                sb.append(ch[i]);
+	            if(!visited[i]) {
+	                tmp.append(ch[i]);
 	            }
 	            else {
 	                b = true;
@@ -47,27 +51,19 @@ public class Main {
 	        }
 	        
 	        if(b) {
-	            result.add(sb.toString());
+	            result.add(tmp.toString());
 	        }
+	        
 	        return;
 	    }
 	    
 	    comb(depth + 1);
 	    
-	    Node now = brackets.get(depth);
-	    check[now.num] = true;
-	    check[now.idx] = true;
+	    int[] now = list.get(depth);
+	    visited[now[0]] = true;
+	    visited[now[1]] = true;
 	    comb(depth + 1);
-	    check[now.num] = false;
-	    check[now.idx] = false;
+	    visited[now[0]] = false;
+	    visited[now[1]] = false;	    
 	}
-}
-
-class Node {
-    int num, idx;
-    
-    public Node(int num, int idx) {
-        this.num = num;
-        this.idx = idx;
-    }
 }
