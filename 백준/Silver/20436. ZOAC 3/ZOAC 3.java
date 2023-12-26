@@ -57,20 +57,16 @@ public class Main {
                     break;
                 }
             }
-            
-            // 왼손이면, 왼손에서 움직여서 택시 거리 구하기
+
             if(h == 'l') {
                 int dist = Math.abs(left[0] - findPos[0]) + Math.abs(left[1] - findPos[1]);
                 time += dist + 1;
-                left[0] = findPos[0];
-                left[1] = findPos[1];
+                left = findPos;
             }
-            // 오른손이면, 오른손에서 움직여서 택시 거리 구하기
             else if(h == 'r') {
                 int dist = Math.abs(right[0] - findPos[0]) + Math.abs(right[1] - findPos[1]);
                 time += dist + 1;
-                right[0] = findPos[0];
-                right[1] = findPos[1];
+                right = findPos;
             }
         }
         
