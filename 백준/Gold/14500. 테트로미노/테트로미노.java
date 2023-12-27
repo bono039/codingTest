@@ -143,7 +143,6 @@ public class Main {
 	    }
 	}
 
-
 	private static void shape1415() {
 	    for(int i = 0 ; i <= N - 2 ; i++) {
 	        for(int j = 0 ; j <= M - 3 ; j++) {
@@ -172,9 +171,5 @@ public class Main {
 	            max = Math.max(max, Math.max(tmp1, tmp2));
 	        }
 	    }
-	}	
-	
-	private static boolean inRange(int r, int c) {
-	    return(0 <= r && r < N && 0 <= c && c < M);
 	}
 }
