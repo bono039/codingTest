@@ -3,9 +3,6 @@ import java.io.*;
 
 public class Main {
     static int[][] board;
-    static boolean[][] visited;
-    
-    static int blackCnt, whiteCnt;
     
     static List<int[]> bList = new ArrayList<>();
     static List<int[]> wList = new ArrayList<>();
@@ -16,9 +13,7 @@ public class Main {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	    StringTokenizer st;
 	    
-	    board = new int[20][20];
-	    visited = new boolean[20][20];
-	    
+	    board = new int[20][20];	    
 	    for(int i = 1 ; i <= 19 ; i++) {
 	        st = new StringTokenizer(br.readLine(), " ");
 	        for(int j = 1 ; j <= 19 ; j++) {
@@ -37,8 +32,6 @@ public class Main {
 	        }
 	    }
 	    
-	    // 검은돌 리스트와 흰돌리스트 정렬
-	    // 가장 왼쪽 위에 있는 값으로
 	    Collections.sort(bList, new Comparator<int[]>() {
 	        @Override
 	        public int compare(int[] o1, int[] o2) {
@@ -70,85 +63,78 @@ public class Main {
 	    }
 	}
 	
-	private static void rCheck(int i, int j) {
-        int tmp = board[i][j];
-        
-        if(tmp == 0 || !inRange(i, j + 4))    return;
+	private static void rCheck(int i, int j) {        
+        if(board[i][j] == 0 || !inRange(i, j + 4))    return;
         
         if((board[i][j] == board[i][j + 1]) && (board[i][j + 1] == board[i][j + 2]) && (board[i][j + 2] == board[i][j + 3]) && (board[i][j + 3] == board[i][j + 4])) {
             if(inRange(i, j - 1) && board[i][j] == board[i][j - 1]) return;
             if(inRange(i, j + 5) && board[i][j] == board[i][j + 5]) return;
             
-            if(tmp == 1) {
+            if(board[i][j] == 1) {
                 bList.add(new int[] {i, j});
                 blackScore++;
             }
-            else if(tmp == 2) {
+            else if(board[i][j] == 2) {
                 wList.add(new int[] {i, j});
                 whiteScore++;
             }
         }
 	}
 	
-	private static void cCheck(int i, int j) {
-        int tmp = board[i][j];
-        
-        if(tmp == 0 || !inRange(i + 4, j))    return;
+	private static void cCheck(int i, int j) {        
+        if(board[i][j] == 0 || !inRange(i + 4, j))    return;
         
         if((board[i][j] == board[i + 1][j]) && (board[i + 1][j] == board[i + 2][j]) && (board[i + 2][j] == board[i + 3][j]) && (board[i + 3][j] == board[i + 4][j])) {
             if(inRange(i - 1, j) && board[i][j] == board[i - 1][j]) return;
             if(inRange(i + 5, j) && board[i][j] == board[i + 5][j]) return;
             
-            if(tmp == 1) {
+            if(board[i][j] == 1) {
                 bList.add(new int[] {i, j});
                 blackScore++;
             }
-            else if(tmp == 2) {
+            else if(board[i][j] == 2) {
                 wList.add(new int[] {i, j});
                 whiteScore++;
             }
         }
     }
 	
-	private static void lrCheck(int i, int j) {
-        int tmp = board[i][j];
-        
-        if(tmp == 0 || !inRange(i + 4, j + 4))    return;
+	private static void lrCheck(int i, int j) {        
+        if(board[i][j] == 0 || !inRange(i + 4, j + 4))    return;
         
         if((board[i][j] == board[i + 1][j + 1]) && (board[i + 1][j + 1] == board[i + 2][j + 2]) && (board[i + 2][j + 2] == board[i + 3][j + 3]) && (board[i + 3][j + 3] == board[i + 4][j + 4])) {
             if(inRange(i - 1, j - 1) && board[i][j] == board[i - 1][j - 1]) return;
             if(inRange(i + 5, j + 5) && board[i][j] == board[i + 5][j + 5]) return;
             
-            if(tmp == 1) {
+            if(board[i][j] == 1) {
                 bList.add(new int[] {i, j});
                 blackScore++;
             }
-            else if(tmp == 2) {
+            else if(board[i][j] == 2) {
                 wList.add(new int[] {i, j});
                 whiteScore++;
             }
         }
 	}
 	
-	private static void rlCheck(int i, int j) {
-        int tmp = board[i][j];
-        
-        if(tmp == 0 || !inRange(i + 4, j - 4))    return;
+	private static void rlCheck(int i, int j) {        
+        if(board[i][j] == 0 || !inRange(i + 4, j - 4))    return;
         
         if((board[i][j] == board[i + 1][j - 1]) && (board[i + 1][j - 1] == board[i + 2][j - 2]) && (board[i + 2][j - 2] == board[i + 3][j - 3]) && (board[i + 3][j - 3] == board[i + 4][j - 4])) {
             if(inRange(i - 1, j + 1) && board[i][j] == board[i - 1][j + 1]) return;
             if(inRange(i + 5, j - 5) && board[i][j] == board[i + 5][j - 5]) return;
             
-            if(tmp == 1) {
+            if(board[i][j] == 1) {
                 bList.add(new int[] {i + 4, j - 4});
                 blackScore++;
             }
-            else if(tmp == 2) {
+            else if(board[i][j] == 2) {
                 wList.add(new int[] {i + 4, j - 4});
                 whiteScore++;
             }
         }
 	}	
+    
 	private static boolean inRange(int r, int c) {
 	    return (1 <= r && r <= 19 && 1 <= c && c <= 19);
 	}
