@@ -31,11 +31,9 @@ public class Main {
 	    
 	    for(int i = 1 ; i <= N ; i++) {
 	        visited = new boolean[N + 1];
-	        
 	        bfs(i);
 	    }
 	    
-	    StringBuilder sb = new StringBuilder();
 	    for(int i = 1 ; i <= N ; i++) {
 	        if(cntArr[i] > maxDepth) {
 	            maxDepth = cntArr[i];
