@@ -49,9 +49,9 @@ public class Main {
 	private static void rotate() {
 	    for(int i = 0 ; i < n ; i++) {
 	        copy[i][n / 2] = grid[i][i];
+	        copy[n - 1 - i][i] = grid[n - 1 - i][n / 2];
+	        copy[n / 2][i] = grid[n - 1 - i][i];
 	        copy[i][i] = grid[n / 2][i];
-	        copy[n / 2][i] = grid[n - i - 1][i];
-	        copy[n - i - 1][i] = grid[n - i - 1][n / 2];
 	    }
 	    
 	    for(int i = 0 ; i < n ; i++) {
