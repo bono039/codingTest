@@ -44,17 +44,13 @@ public class Main {
 	    while(!pq.isEmpty()) {
 	        Road cur = pq.poll();
 	        int goal = cur.e;
-	        boolean chk = false;
 	        
 	        for(Road r : graph) {
 	            if(r.s >= goal) {
     	            if(r.e > D) continue;
     	            
-    	            int tmp = r.s - goal;
-    	            chk = true;
-    	            
-    	            if(dist[r.e] > dist[goal] + r.v + tmp) {
-    	                dist[r.e] = dist[goal] + r.v + tmp;
+    	            if(dist[r.e] > dist[goal] + r.v + (r.s - goal)) {
+    	                dist[r.e] = dist[goal] + r.v + (r.s - goal);
     	                pq.offer(new Road(goal, r.e, dist[r.e]));
     	            }	                
 	            }
