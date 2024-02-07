@@ -33,12 +33,7 @@ public class Main {
 	}
 	
 	private static void dfs(int idx, int cnt, int target, int sour, int bitter) {
-	    if(cnt == target) {
-	        for(int i = 0 ; i < list.size() ; i++) {
-	            int tmpS = arr[list.get(i)][0];
-	            int tmpB = arr[list.get(i)][1];
-	        }
-	        
+	    if(cnt == target) {	        
 	        minDiff = Math.min(minDiff, Math.abs(sour - bitter));
 	        return;
 	    }
