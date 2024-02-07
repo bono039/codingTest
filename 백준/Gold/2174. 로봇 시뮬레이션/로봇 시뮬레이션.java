@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static int[] dx = {0, 1, 0, -1};   // 북서남동 (0123)
+    static int[] dx = {0, 1, 0, -1};
     static int[] dy = {1, 0, -1, 0};
     
     static int A, B, N, M;
@@ -16,24 +16,23 @@ public class Main {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	    StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 	    
-	    A = Integer.parseInt(st.nextToken());   // 가로
-	    B = Integer.parseInt(st.nextToken());   // 세로
+	    A = Integer.parseInt(st.nextToken());
+	    B = Integer.parseInt(st.nextToken());
 	    
 	    map = new int[B + 1][A + 1];
 	    
 	    st = new StringTokenizer(br.readLine(), " ");
-	    N = Integer.parseInt(st.nextToken());   // 로봇 수
-	    M = Integer.parseInt(st.nextToken());   // 명령 수
+	    N = Integer.parseInt(st.nextToken());
+	    M = Integer.parseInt(st.nextToken());
 
-	    // 각 로봇의 초기 좌표
 	    robots = new Robot[N + 1];
 	    
 	    int d = 0;
 	    for(int i = 1 ; i <= N ; i++) {
 	        st = new StringTokenizer(br.readLine(), " ");
-    	    int x = Integer.parseInt(st.nextToken());   // x좌표
-    	    int y = Integer.parseInt(st.nextToken());   // y좌표
-    	    char dir = st.nextToken().charAt(0); // 방향
+    	    int x = Integer.parseInt(st.nextToken());
+    	    int y = Integer.parseInt(st.nextToken());
+    	    char dir = st.nextToken().charAt(0);
     	    
     	    if(dir == 'N')       d = 0;
     	    else if(dir == 'E')  d = 1;
@@ -44,12 +43,11 @@ public class Main {
     	    robots[i] = new Robot(x, y, d);
 	    }
 	    
-	    // 명령 내리기
 	    while(M --> 0) {
 	        st = new StringTokenizer(br.readLine(), " ");
-    	    int num = Integer.parseInt(st.nextToken());    // 명령 내리는 로봇
-    	    char cmd = st.nextToken().charAt(0);           // 명령 종류
-    	    int repeat = Integer.parseInt(st.nextToken()); // 명령 반복 횟수
+    	    int num = Integer.parseInt(st.nextToken());
+    	    char cmd = st.nextToken().charAt(0);
+    	    int repeat = Integer.parseInt(st.nextToken());
     	    
     	    move(num, cmd, repeat);
     	    
@@ -76,7 +74,7 @@ public class Main {
     	        int nx = x + dx[d];
     	        int ny = y + dy[d];
     	        
-    	        if(!inRange(nx, ny)) {
+    	        if(!inRange(ny, nx)) {
     	            System.out.println("Robot " + num + " crashes into the wall");
     	            isTrue = true;
     	            return;
@@ -110,9 +108,9 @@ public class Main {
 	    
 	    return dir;
 	}
-		
-	private static boolean inRange(int x, int y) {
-	    return (1 <= x && x <= A && 1 <= y && y <= B);
+	
+	private static boolean inRange(int y, int x) {
+	    return (1 <= y && y <= B && 1 <= x && x <= A);
 	}
 }
 
