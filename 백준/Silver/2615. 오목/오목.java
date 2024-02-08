@@ -2,140 +2,149 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static int[][] board;
+    static int[][] board = new int[20][20];
     
-    static List<int[]> bList = new ArrayList<>();
-    static List<int[]> wList = new ArrayList<>();
+    static List<int[]> blackList = new ArrayList<>();
+    static List<int[]> whiteList = new ArrayList<>();
     
-    static int blackScore, whiteScore;
+    static int blackScore, whiteScore, R, C;
     
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	    StringTokenizer st;
 	    
-	    board = new int[20][20];	    
 	    for(int i = 1 ; i <= 19 ; i++) {
 	        st = new StringTokenizer(br.readLine(), " ");
 	        for(int j = 1 ; j <= 19 ; j++) {
 	            board[i][j] = Integer.parseInt(st.nextToken());
-	        }
-	    }
-	    
-	    for(int i = 1 ; i <= 19 ; i++) {
-	        for(int j = 1 ; j <= 19 ; j++) {
-	            if(board[i][j] == 0)    continue;
 	            
-	            rCheck(i, j);
-	            cCheck(i, j);
-	            lrCheck(i, j);
-	            rlCheck(i, j);
+	            if(board[i][j] == 1)         blackList.add(new int[]{i, j});
+	            else if(board[i][j] == 2)    whiteList.add(new int[] {i, j});
 	        }
 	    }
 	    
-	    Collections.sort(bList, new Comparator<int[]>() {
-	        @Override
-	        public int compare(int[] o1, int[] o2) {
-	            if(o1[0] != o2[0])
-	                return o1[0] - o2[0];
-	            return o1[1] - o2[1];
+	    for(int i = 0 ; i < blackList.size() ; i++) {
+	        int[] now = blackList.get(i);
+	        
+	        if(chkGaro(now[0], now[1], 1) == 5) {
+        	    R = now[0];
+        	    C = now[1];
+        	    blackScore++;	            
 	        }
-	    });
-	    
-	   Collections.sort(wList, new Comparator<int[]>() {
-	       @Override 
-	       public int compare(int[] o1, int[] o2) {
-	           if(o1[0] != o2[0])
-	                return o1[0] - o2[0];
-	           return o1[1] - o2[1];
-	       }
-	   });
-	    
-	    if(blackScore > whiteScore) {
-	        System.out.println(1);
-	        System.out.println(bList.get(0)[0] + " " + bList.get(0)[1]);
+	        if(chkSero(now[0], now[1], 1) == 5) {
+	            R = now[0];
+	            C = now[1];
+	            blackScore++;
+	        }
+	        if(chkLine1(now[0], now[1], 1) == 5) {  // \
+	            R = now[0];
+	            C = now[1];
+	            blackScore++;	            
+	        }
+	        if(chkLine2(now[0], now[1], 1) == 5) {  // /
+	            R = now[0] + 4;
+	            C = now[1] - 4;
+	            blackScore++;	            
+	        }
 	    }
-	    else if(blackScore < whiteScore) {
-	        System.out.println(2);
-	        System.out.println(wList.get(0)[0] + " " + wList.get(0)[1]);
-	    }
-	    else {
+
+	    for(int i = 0 ; i < whiteList.size() ; i++) {
+	        int[] now = whiteList.get(i);
+	        
+	        if(chkGaro(now[0], now[1], 2) == 5) {
+        	    R = now[0];
+        	    C = now[1];
+        	    whiteScore++;	            
+	        }
+	        if(chkSero(now[0], now[1], 2) == 5) {
+	            R = now[0];
+	            C = now[1];
+	            whiteScore++;
+	        }
+	        if(chkLine1(now[0], now[1], 2) == 5) {  // \
+	            R = now[0];
+	            C = now[1];
+	            whiteScore++;	            
+	        }
+	        if(chkLine2(now[0], now[1], 2) == 5) {  // /
+	            R = now[0] + 4;
+	            C = now[1] - 4;
+	            whiteScore++;	            
+	        }
+	    }	    
+	    
+	    if(blackScore == whiteScore) {
 	        System.out.println(0);
 	    }
+	    else {
+	        System.out.println(blackScore > whiteScore ? 1 : 2);
+	        System.out.println(R + " " + C);
+	    }
 	}
 	
-	private static void rCheck(int i, int j) {        
-        if(board[i][j] == 0 || !inRange(i, j + 4))    return;
-        
-        if((board[i][j] == board[i][j + 1]) && (board[i][j + 1] == board[i][j + 2]) && (board[i][j + 2] == board[i][j + 3]) && (board[i][j + 3] == board[i][j + 4])) {
-            if(inRange(i, j - 1) && board[i][j] == board[i][j - 1]) return;
-            if(inRange(i, j + 5) && board[i][j] == board[i][j + 5]) return;
-            
-            if(board[i][j] == 1) {
-                bList.add(new int[] {i, j});
-                blackScore++;
-            }
-            else if(board[i][j] == 2) {
-                wList.add(new int[] {i, j});
-                whiteScore++;
-            }
-        }
+	private static int chkGaro(int x, int y, int targetNum) {
+	    int cnt = 0;
+	    
+	    for(int i = y ; i < y + 5 ; i++) {
+	        if(!inRange(x, i))  return 0;
+	        if(board[x][i] == targetNum) {
+	            cnt++;
+	        }
+	    }
+	    
+	    if(inRange(x, y - 1) && board[x][y - 1] == targetNum)    return 0;
+	    if(inRange(x, y + 5) && board[x][y + 5] == targetNum)    return 0;
+	    
+	    return cnt;
 	}
 	
-	private static void cCheck(int i, int j) {        
-        if(board[i][j] == 0 || !inRange(i + 4, j))    return;
-        
-        if((board[i][j] == board[i + 1][j]) && (board[i + 1][j] == board[i + 2][j]) && (board[i + 2][j] == board[i + 3][j]) && (board[i + 3][j] == board[i + 4][j])) {
-            if(inRange(i - 1, j) && board[i][j] == board[i - 1][j]) return;
-            if(inRange(i + 5, j) && board[i][j] == board[i + 5][j]) return;
-            
-            if(board[i][j] == 1) {
-                bList.add(new int[] {i, j});
-                blackScore++;
-            }
-            else if(board[i][j] == 2) {
-                wList.add(new int[] {i, j});
-                whiteScore++;
-            }
-        }
-    }
-	
-	private static void lrCheck(int i, int j) {        
-        if(board[i][j] == 0 || !inRange(i + 4, j + 4))    return;
-        
-        if((board[i][j] == board[i + 1][j + 1]) && (board[i + 1][j + 1] == board[i + 2][j + 2]) && (board[i + 2][j + 2] == board[i + 3][j + 3]) && (board[i + 3][j + 3] == board[i + 4][j + 4])) {
-            if(inRange(i - 1, j - 1) && board[i][j] == board[i - 1][j - 1]) return;
-            if(inRange(i + 5, j + 5) && board[i][j] == board[i + 5][j + 5]) return;
-            
-            if(board[i][j] == 1) {
-                bList.add(new int[] {i, j});
-                blackScore++;
-            }
-            else if(board[i][j] == 2) {
-                wList.add(new int[] {i, j});
-                whiteScore++;
-            }
-        }
+	private static int chkSero(int x, int y, int targetNum) {
+	    int cnt = 0;
+	    
+	    for(int i = x ; i < x + 5 ; i++) {
+	        if(!inRange(i, y))  return 0;
+	        if(board[i][y] == targetNum) {
+	            cnt++;
+	        }
+	    }
+	    
+	    if(inRange(x - 1, y) && board[x - 1][y] == targetNum)    return 0;
+	    if(inRange(x + 5, y) && board[x + 5][y] == targetNum)    return 0;
+	    
+	    return cnt;
 	}
 	
-	private static void rlCheck(int i, int j) {        
-        if(board[i][j] == 0 || !inRange(i + 4, j - 4))    return;
-        
-        if((board[i][j] == board[i + 1][j - 1]) && (board[i + 1][j - 1] == board[i + 2][j - 2]) && (board[i + 2][j - 2] == board[i + 3][j - 3]) && (board[i + 3][j - 3] == board[i + 4][j - 4])) {
-            if(inRange(i - 1, j + 1) && board[i][j] == board[i - 1][j + 1]) return;
-            if(inRange(i + 5, j - 5) && board[i][j] == board[i + 5][j - 5]) return;
-            
-            if(board[i][j] == 1) {
-                bList.add(new int[] {i + 4, j - 4});
-                blackScore++;
-            }
-            else if(board[i][j] == 2) {
-                wList.add(new int[] {i + 4, j - 4});
-                whiteScore++;
-            }
-        }
-	}	
-    
-	private static boolean inRange(int r, int c) {
-	    return (1 <= r && r <= 19 && 1 <= c && c <= 19);
+	private static int chkLine1(int x, int y, int targetNum) {
+	    int cnt = 0;
+	    
+	    for(int i = 0 ; i < 5 ; i++) {
+	        if(!inRange(x + i, y + i))  return 0;
+	        if(board[x + i][y + i] == targetNum)
+	            cnt++;
+	    }
+	    
+	    if(inRange(x - 1, y - 1) && board[x - 1][y - 1] == targetNum)    return 0;
+	    if(inRange(x + 5, y + 5) && board[x + 5][y + 5] == targetNum)    return 0;
+	    
+	    return cnt;
+	}
+	
+	private static int chkLine2(int x, int y, int targetNum) {
+	    int cnt = 0;
+	    
+	    for(int i = 0 ; i < 5 ; i++) {
+	        if(!inRange(x + i, y - i))  return 0;
+	        if(board[x + i][y - i] == targetNum)
+	            cnt++;
+	    }
+
+	    if(inRange(x - 1, y + 1) && board[x - 1][y + 1] == targetNum)    return 0;
+	    if(inRange(x + 5, y - 5) && board[x + 5][y - 5] == targetNum)    return 0;
+	    
+	    return cnt;
+	}
+	
+	private static boolean inRange(int x, int y) {
+	    return (1 <= x && x <= 19 && 1 <= y && y <= 19);
 	}
 }
