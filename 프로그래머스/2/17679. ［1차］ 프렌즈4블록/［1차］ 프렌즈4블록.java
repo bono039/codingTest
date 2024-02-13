@@ -17,14 +17,12 @@ class Solution {
             }
         }
         
-        int answer = 0;
         while(true) {
             // 1. 정사각형인 부분 찾기
-            Set<int[]> set = findSquares();
-            
+            Set<int[]> set = findSquares();            
             if(set.isEmpty())   break;
             
-            // 2. 정사각형인 부분 제거하기 (.으로 변경하고 cnt 증가)
+            // 2. 정사각형인 부분 제거하기 (.으로 변경)
             for(int[] p : set) {
                 grid[p[0]][p[1]] = '.';
             }
@@ -39,7 +37,8 @@ class Solution {
             //     System.out.println();
             // }
         }
-        
+
+        int answer = 0;
         for(char[] ch : grid) {
             for(char c : ch) {
                 if(c == '.')
@@ -49,7 +48,8 @@ class Solution {
         
         return answer;
     }
-    
+
+    // 정사각형 찾는 메서드
     private static Set<int[]> findSquares() {
         Set<int[]> tmpSet = new HashSet<>();
         
@@ -66,11 +66,13 @@ class Solution {
         
         return tmpSet;
     }
-    
+
+    // 중력 적용 메서드
     private static void dropBlocks() {
-        char[][] tmpGrid = new char[m][n];
+        char[][] tmpGrid = new char[m][n];    // 2차원 임시 배열 생성
         boolean[][] visited = new boolean[m][n];
 
+        // 2차원 임시배열 채워넣기
         for(int col = 0 ; col < n ; col++) {
             int tmpRow = m - 1;
 
@@ -83,6 +85,7 @@ class Solution {
             }
         }
 
+        // 임시 배열의 값을 원본 배열로 복사하는 과정
         for(int i = 0 ; i < m ; i++) {
             for(int j = 0 ; j < n ; j++) {
                 if(visited[i][j])   grid[i][j] = tmpGrid[i][j];
@@ -90,7 +93,8 @@ class Solution {
             }
         }         
     }
-    
+
+    // 2*2 정사각형 이루는지 판별하는 메서드
     private static boolean isSquare(int x, int y) {  
         return (grid[x][y] == grid[x+1][y] && grid[x][y] == grid[x][y+1] && grid[x][y] == grid[x+1][y+1]);
     }
