@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Solution {
+class Solution {    
     public int solution(int[][] targets) {
         int answer = 0;
         
@@ -18,7 +18,7 @@ class Solution {
                 end = t[1];
                 answer++;
             }
-        }
+        }        
         
         return answer;
     }
