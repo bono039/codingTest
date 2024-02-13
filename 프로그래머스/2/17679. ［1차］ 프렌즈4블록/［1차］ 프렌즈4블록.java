@@ -49,9 +49,9 @@ class Solution {
         return answer;
     }
 
-    // 정사각형 찾는 메서드
+    // 정사각형에 속하는 좌표 저장하는 집합 만드는 메서드
     private static Set<int[]> findSquares() {
-        Set<int[]> tmpSet = new HashSet<>();
+        Set<int[]> tmpSet = new HashSet<>();    // 중복 좌표 제거 위해 Set으로 저장
         
         for(int i = 0 ; i < m - 1 ; i++) { 
             for(int j = 0 ; j < n - 1 ; j++) {
