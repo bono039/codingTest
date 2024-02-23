@@ -1,62 +1,67 @@
 import java.util.*;
-// 전선 중 하나를 끊어 네트워크를 2개로 분할 (송전탑 개수 최대한 비슷하게)
+
 class Solution {
     static int n;
     static int[][] wires;
     
-    static ArrayList<Integer>[] A;
+    static List<Integer>[] A;
     static boolean[] visited;
-    static int min = Integer.MAX_VALUE;
     
-    public int solution(int n, int[][] wires) { // 송전탑 개수, 전선정보
+    static int diff = Integer.MAX_VALUE;
+    
+    public int solution(int n, int[][] wires) { // 송전탑 수, 전선 정보
         this.n = n;
         this.wires = wires;
         
-        A = new ArrayList[n + 1];
-        for(int i = 1 ; i <= n ; i++) A[i] = new ArrayList<>();
-        
-        // 양방향 간선
-        for(int i = 0 ; i < wires.length ; i++) {
-            int a = wires[i][0];
-            int b = wires[i][1];
-            A[a].add(b);
-            A[b].add(a);
+        A = new ArrayList[n+1];
+        for(int i = 1 ; i <= n ; i++) {
+            A[i] = new ArrayList<>();
         }
         
-        for(int i = 0 ; i < wires.length ; i++) {
-            int a = wires[i][0];
-            int b = wires[i][1];
-            
+        for(int[] w : wires) {
+            A[w[0]].add(w[1]);
+            A[w[1]].add(w[0]);
+        }
+        
+        // 전선들 중 "하나" 끊어서 송전탑 개수가 가능한 비슷하도록
+        for(int[] w : wires) {   
             visited = new boolean[n + 1];
             
-            // 해당 간선을 그래프에서 제거
-            A[a].remove(Integer.valueOf(b));
-            A[b].remove(Integer.valueOf(a));
+            // 1. 전선줄 하나 끊어보기
+            A[w[0]].remove(Integer.valueOf(w[1]));
+            A[w[1]].remove(Integer.valueOf(w[0]));
             
-            int cnt = dfs(1);   // 임의의 시작점에서 dfs 탐색
+            // 2. 두 전력망이 가진 송전탑 개수 차이 계산하기
+            int cnt = bfs(1);   // 임의의 시작점에서 bfs
+            diff = Math.min(diff, Math.abs(cnt - (n-cnt)));
             
-            int diff = Math.abs(cnt - (n - cnt));   // |송전탑 개수 차이|
-            min = Math.min(min, diff);
-            
-            // 그래프에 다시 간선 추가
-            A[a].add(b);
-            A[b].add(a);
-        }
+            // 3. 전선줄 원상복구
+            A[w[0]].add(w[1]);
+            A[w[1]].add(w[0]);            
+        }       
         
-        return min;
+        return diff;
     }
     
-    static int dfs(int v) {
-        visited[v] = true;
+    private static int bfs(int num) {
         int cnt = 1;
+        visited[num] = true;
         
-        for(int next : A[v]) {
-            if(!visited[next]) {
-                cnt += dfs(next);
+        Queue<Integer> q = new ArrayDeque<>();
+        q.add(num);       
+        
+        while(!q.isEmpty()) {
+            int now = q.poll();
+            
+            for(int next : A[now]) {
+                if(!visited[next]) {
+                    visited[next] = true;
+                    q.add(next);
+                    cnt++;
+                }
             }
         }
         
         return cnt;
-        
     }
 }
