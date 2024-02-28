@@ -2,22 +2,28 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        int n = scan.nextInt();
-        int [] tall = new int[n+1];
-        List<Integer> ans = new ArrayList<>();
-
-        for(int i=1; i<=n; i++) {
-            tall[i] = scan.nextInt();
-        }
-
-        for(int i=n; i>=1; i--) {
-            ans.add(tall[i], i);
-        }
-
-        for(int k : ans) {
-            System.out.print(k+" ");
-        }
-    }    
+    static int N;
+    static int[] arr;
+    static List<Integer> ans = new ArrayList<>();
+    
+	public static void main(String[] args) throws IOException {
+	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	    StringTokenizer st;
+	    
+	    N = Integer.parseInt(br.readLine());
+	    arr = new int[N + 1]; 
+	    
+	    st = new StringTokenizer(br.readLine(), " ");
+	    for(int i = 1 ; i <= N ; i++) {
+	        arr[i] = Integer.parseInt(st.nextToken());
+	    }
+	    
+	    for(int i = N ; i >= 1 ; i--) {
+	        ans.add(arr[i], i);
+	    }
+	    
+	    for(int k : ans) {
+	        System.out.print(k + " ");
+	    }
+	}
 }
