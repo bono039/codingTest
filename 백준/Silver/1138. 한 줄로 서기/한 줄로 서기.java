@@ -22,8 +22,10 @@ public class Main {
 	        ans.add(arr[i], i);
 	    }
 	    
+        StringBuilder sb = new StringBuilder();
 	    for(int k : ans) {
-	        System.out.print(k + " ");
+	        sb.append(k).append(" ");
 	    }
+        System.out.println(sb.toString());
 	}
 }
