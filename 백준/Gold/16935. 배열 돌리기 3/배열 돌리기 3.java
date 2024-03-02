@@ -61,9 +61,7 @@ public class Main {
 	        for(int j = 0 ; j < len2 ; j++)
 	            tmp[i][len2 - 1 - j] = map[i][j];
 	            
-	    for(int i = 0 ; i < len1 ; i++)
-	        for(int j = 0 ; j < len2 ; j++)
-	            map[i][j] = tmp[i][j];
+	    map = tmp.clone();
 	}
 	
 	private static void move3() {
@@ -75,10 +73,7 @@ public class Main {
 	        for(int j = 0 ; j < len2 ; j++)
 	            tmp[j][len1 - 1 - i] = map[i][j];
 	            
-        map = new int[len2][len1];	            
-	    for(int i = 0 ; i < len2 ; i++)
-	        for(int j = 0 ; j < len1 ; j++)
-	            map[i][j] = tmp[i][j];
+        map = tmp.clone();
 	}
 
 	private static void move4() {
@@ -91,10 +86,7 @@ public class Main {
 	        for(int j = 0 ; j < len2 ; j++)
 	            tmp[len2 - 1 - j][i] = map[i][j];
 	            
-        map = new int[len2][len1];	            
-	    for(int i = 0 ; i < len2 ; i++)
-	        for(int j = 0 ; j < len1 ; j++)
-	            map[i][j] = tmp[i][j];
+        map = tmp.clone();
 	}
 	
 	private static void move5() {
@@ -122,10 +114,7 @@ public class Main {
 	            tmp[i - r/2][j] = map[i][j];
 	    }
 	    
-	    for(int i = 0 ; i < r ; i++) {
-	        for(int j = 0 ; j < c ; j++)
-	            map[i][j] = tmp[i][j];
-	    }
+	    map = tmp.clone();
 	}
 	
 	private static void move6() {
@@ -154,10 +143,7 @@ public class Main {
 	            tmp[i][j + c/2] = map[i][j];
 	    }
 	    
-	    for(int i = 0 ; i < r ; i++) {
-	        for(int j = 0 ; j < c ; j++)
-	            map[i][j] = tmp[i][j];
-	    }
+	    map = tmp.clone();
 	}	
 	
 	private static void print() {
