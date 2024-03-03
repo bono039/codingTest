@@ -5,123 +5,85 @@ public class Main {
     static int[] dx = {-1,1,0,0};
     static int[] dy = {0,0,-1,1};
     
-    static int n,m;
-    static int[][] grid;
-    static boolean[][] visited;
+    static int N, M;
+    static int[][] map;
     
+    static int time = 0;
     static List<Integer> list = new ArrayList<>();
-    
-    static int time, leftCnt;
     
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	    StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 	    
-	    n = Integer.parseInt(st.nextToken());
-	    m = Integer.parseInt(st.nextToken());
+	    N = Integer.parseInt(st.nextToken());
+	    M = Integer.parseInt(st.nextToken());
 	    
-	    // 0 : 빈 칸 / 1 : 치즈
-	    // 치즈에 1개 이상의 구멍
-	    // 공기와 접촉된 칸은 1시간 후 녹음
-	    
-	    // 테두리 치즈만 녹인다.
-	    grid = new int[n][m];
-	    visited = new boolean[n][m];
-	    
-	    int tmp = 0;
-	    
-	    for(int i = 0 ; i < n ; i++) {
+	    map = new int[N][M];
+	    for(int i = 0 ; i < N ; i++) {
 	        st = new StringTokenizer(br.readLine(), " ");
-	        for(int j = 0 ; j < m ; j++) {
-	            grid[i][j] = Integer.parseInt(st.nextToken());
-	            if(grid[i][j] == 1) tmp++;
+	        for(int j = 0 ; j < M ; j++) {
+	            map[i][j] = Integer.parseInt(st.nextToken());
 	        }
 	    }
-        list.add(tmp);
 	    
 	    while(true) {
-	        if(cntCheese() == 0) break;
-	        
-	        init();
-	        bfs(0, 0);
-	        melt();
+	        if(!cheeseExists()) break;
+	            
 	        time++;
+	        melt();
 	    }
 	    
 	    System.out.println(time);
-	    System.out.println(list.get(list.size() - 2));
+	    System.out.println(list.get(list.size() - 1));
 	}
 	
-	private static int cntCheese() {
+	private static boolean cheeseExists() {
+	    boolean exists = false;
 	    int cnt = 0;
-	    for(int i = 0 ; i < n ; i++) {
-	        for(int j = 0 ; j < m ; j++) {
-	            if(grid[i][j] == 1) {
+	    
+	    for(int i = 0 ; i < N ; i++) {
+	        for(int j = 0 ; j < M ; j++) {
+	            if(map[i][j] == 1) {
+	                exists = true;
 	                cnt++;
 	            }
 	        }
 	    }
 	    
-	    return cnt;
+	    if(cnt != 0)    list.add(cnt);
+	    
+	    return exists;
 	}
 	
-	private static void init() {
-	    for(int i = 0 ; i < n ; i++)
-	        for(int j = 0 ; j < m ; j++)
-	            visited[i][j] = false;
-	}
-
-	private static void bfs(int x, int y) {
+	private static void melt() {
 	    Queue<int[]> q = new ArrayDeque<>();
-	    q.add(new int[] {x, y});
+	    q.add(new int[] {0, 0});
 	    
-	    visited[x][y] = true;
+	    boolean[][] visited = new boolean[N][M];
+	    visited[0][0] = true;
 	    
 	    while(!q.isEmpty()) {
 	        int[] now = q.poll();
 	        
-	        for(int dir = 0 ; dir < 4 ; dir++) {
-	            int nx = now[0] + dx[dir];
-	            int ny = now[1] + dy[dir];
+	        for(int d = 0 ; d < 4 ; d++) {
+	            int nx = now[0] + dx[d];
+	            int ny = now[1] + dy[d];
 	            
-	            if(canGo(nx, ny)) {
-	                q.add(new int[]{nx, ny});
+	            if(!inRange(nx, ny) || visited[nx][ny])    continue;
+	            
+	            if(map[nx][ny] == 0) {
 	                visited[nx][ny] = true;
+	                q.add(new int[] {nx, ny});
+	            }
+	            else if(map[nx][ny] == 1) {
+	                visited[nx][ny ] = true;
+	                map[nx][ny] = 0;
 	            }
 	        }
 	    }
-	}
-	
-	private static void melt() {
-	    for(int i = 0 ; i < n ; i++) {
-	        for(int j = 0 ; j < m ; j++) {
-	            if(grid[i][j] == 1 && airAround(i, j)) {
-	                grid[i][j] = 0;
-	            }
-	        }
-	    }
-	    
-	    list.add(cntCheese());
-	}
-	
-	private static boolean airAround(int x, int y) {
-	    for(int dir = 0 ; dir < 4 ; dir++) {
-	        int nx = x + dx[dir];
-	        int ny = y + dy[dir];
-	        
-	        if(inRange(nx, ny) && grid[nx][ny] == 0 && visited[nx][ny]) {
-	            return true;
-	        }
-	    }
-	    
-	    return false;
-	}
-	
-	private static boolean canGo(int x, int y) {
-	    return (inRange(x, y) && !visited[x][y] && grid[x][y] == 0);
 	}
 	
 	private static boolean inRange(int x, int y) {
-	    return (0 <= x && x < n && 0 <= y && y < m);
+	    return 0 <= x && x < N && 0 <= y && y < M;
 	}
 }
