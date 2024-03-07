@@ -76,8 +76,7 @@ public class Main {
 	    if(K == 3) {
     	    for(int i = 0 ; i < N - 2 ; i++) {
     	        for(int j = i + 1 ; j < N - 1 ; j++) {
-    	            for(int k = j + 1 ; j < N ; j++) {
-    	                // 각 대피소 위치
+    	            for(int k = j + 1 ; k < N ; k++) {
     	                int[] h1 = arr[i];
     	                int[] h2 = arr[j];
     	                int[] h3 = arr[k];
