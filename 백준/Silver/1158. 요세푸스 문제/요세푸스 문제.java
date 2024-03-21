@@ -1,30 +1,38 @@
 import java.util.*;
 import java.io.*;
+
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        StringBuilder sb = new StringBuilder();
-        
-        int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
-        
-        Queue<Integer> queue = new LinkedList<>();
-        for(int i = 1 ; i <= N ; i++) {
-            queue.add(i);
-        }
-        
-        sb.append("<");
-        
-        // K-1까지 처음에 있던 값을 맨 뒤로 보냄
-        while(queue.size() != 1) {
-            for(int i = 0 ; i < K - 1 ; i++) {
-                queue.offer(queue.poll());
-            }
-            sb.append(queue.poll()).append(", ");
-        }
-        
-        sb.append(queue.poll()).append(">");
-        System.out.println(sb);
-    }
+    static int N,K;
+    static LinkedList<Integer> q = new LinkedList<>();
+    static StringBuilder sb = new StringBuilder();
+    
+	public static void main(String[] args) throws IOException {
+	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	    
+	    String[] str = br.readLine().split(" ");
+	    N = Integer.parseInt(str[0]);
+	    K = Integer.parseInt(str[1]);
+	    
+	    if(N == 1) {
+	        System.out.println("<1>");
+	        return;
+	    }
+	    
+	    for(int i = 1 ; i <= N ; i++)   q.add(i);
+	    
+	    int idx = K-1;
+	    sb.append("<" + q.remove(idx) + ", ");
+	    
+	    while(!q.isEmpty()) {
+	        idx = (idx + K -1) % q.size();
+	        int num = q.remove(idx);
+	        
+	        sb.append(num);
+	        if(q.size() != 0)
+	            sb.append(", ");
+	    }
+	    
+	    sb.append(">");
+	    System.out.println(sb.toString());
+	}
 }
