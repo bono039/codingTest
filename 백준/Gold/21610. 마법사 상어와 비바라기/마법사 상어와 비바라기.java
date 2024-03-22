@@ -29,6 +29,12 @@ public class Main {
 	    clouds.add(new int[] {N-1, 1});
 	    clouds.add(new int[] {N-2, 0});
 	    clouds.add(new int[] {N-2, 1});
+        
+        visited = new boolean[N][N];
+        visited[N-1][0] = true;
+        visited[N-1][1] = true;
+        visited[N-2][0] = true;
+        visited[N-2][1] = true;
 
 	    while(M --> 0) {
 	        st = new StringTokenizer(br.readLine(), " ");
@@ -46,8 +52,8 @@ public class Main {
 	
 	private static void step12(int d, int s) {
 	    for(int[] c : clouds) {
-	        c[0] = (N + c[0] + dx[d] * (s % N)) % N;
-	        c[1] = (N + c[1] + dy[d] * (s % N)) % N;
+	        c[0] = (c[0] + (dx[d] + N) * s) % N;
+	        c[1] = (c[1] + (dy[d] + N) * s) % N;
 	        A[c[0]][c[1]]++;
 	        visited[c[0]][c[1]] = true;
 	    }
