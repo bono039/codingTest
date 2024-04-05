@@ -7,9 +7,14 @@ public class Main {
     
     static int N,M;
     static int[][] map, tmp;
-    static Queue<int[]> q = new ArrayDeque<>();
+    static boolean[][] visited;
     
     static int answer = 0;
+    
+    static List<int[]> emptyList = new ArrayList<>();
+    static List<int[]> wallsList = new ArrayList<>();
+    static List<int[]> virusList = new ArrayList<>();
+    static boolean[] dfsVisited;
     
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -23,43 +28,72 @@ public class Main {
 	        st = new StringTokenizer(br.readLine(), " ");
 	        for(int j = 0 ; j < M ; j++) {
 	            map[i][j] = Integer.parseInt(st.nextToken());
+	            
+	            if(map[i][j] == 0) {
+	                emptyList.add(new int[]{i, j});
+	            }
+	            else if(map[i][j] == 2) {
+	                virusList.add(new int[]{i, j});
+	            }
 	        }
 	    }
 	    
-	    dfs(0);
+	    dfsVisited = new boolean[emptyList.size()];
+	    dfs(0, 0);
 	    System.out.println(answer);
 	}
 	
-	private static void dfs(int cnt) {
+	private static void dfs(int idx, int cnt) {
 	    if(cnt == 3) {
-            bfs();
+	        setWalls();
+	        virus();
+	        getSafeZone();
+	        init();
 	        return;
 	    }
 	    
-	    for(int i = 0 ; i < N ; i++) {
-	        for(int j = 0 ; j < M ; j++) {
-	            if(map[i][j] == 0) {
-	                map[i][j] = 1;
-	                dfs(cnt + 1);
-	                map[i][j] = 0;
-	            }	            
+	    for(int i = idx ; i < emptyList.size() ; i++) {
+	        if(!dfsVisited[i]) {
+	            dfsVisited[i] = true;
+	            dfs(i + 1, cnt + 1);
+	            dfsVisited[i] = false;
 	        }
 	    }
 	}
 	
-	private static void bfs() {
-	    for(int i = 0 ; i < N ; i++) {
-	        for(int j = 0 ; j < M ; j++) {
-	            if(map[i][j] == 2)
-	                q.add(new int[]{i, j});
-	        }
-	    }
-	    
+	private static void setWalls() {
 	    tmp = new int[N][M];
 	    for(int i = 0 ; i < N ; i++) {
 	        for(int j = 0 ; j < M ; j++)
 	            tmp[i][j] = map[i][j];
 	    }
+	    
+	    for(int i = 0 ; i < dfsVisited.length ; i++) {
+	        if(dfsVisited[i]) {
+	            int x = emptyList.get(i)[0];
+	            int y = emptyList.get(i)[1];
+	            tmp[x][y] = 1;
+	        }
+	    }
+	}
+	
+	private static void virus() {
+	    visited = new boolean[N][M];
+	    
+	    for(int[] now : virusList) {
+	        int i = now[0];
+	        int j = now[1];
+	        
+            if(!visited[i][j]) {
+                visited[i][j] = true;
+                bfs(i, j);
+            }
+	    }
+	}
+	
+	private static void bfs(int x, int y) {
+	    Queue<int[]> q = new ArrayDeque<>();
+	    q.add(new int[] {x, y});
 	    
 	    while(!q.isEmpty()) {
 	        int[] now = q.poll();
@@ -70,14 +104,13 @@ public class Main {
 	            
 	            if(nx < 0 || nx >= N || ny < 0 || ny >= M)  continue;
 	            
-	            if(tmp[nx][ny] == 0) {
+	            if(!visited[nx][ny] && tmp[nx][ny] == 0) {
+	                visited[nx][ny] = true;
 	                tmp[nx][ny] = 2;
 	                q.add(new int[]{nx, ny});
 	            }
 	        }
 	    }
-	    
-	    getSafeZone();
 	}
 	
 	private static void getSafeZone() {
@@ -91,5 +124,10 @@ public class Main {
 	    }
 	    
 	    answer = Math.max(answer, cnt);
+	}
+	
+	private static void init() {
+	    wallsList.clear();
+	    visited = new boolean[N][M];
 	}
 }
