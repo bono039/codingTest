@@ -7,9 +7,7 @@ public class Main {
     
     static int R,C;
     static int[][] board;
-    static boolean[] alphabet = new boolean[26];
-    
-    static int answer = 1;
+    static boolean[] alphabet = new boolean[26];    
     static int max = 0;
     
 	public static void main(String[] args) throws IOException {
@@ -19,8 +17,7 @@ public class Main {
 	    R = Integer.parseInt(st.nextToken());
 	    C = Integer.parseInt(st.nextToken());
 	    
-	    board = new int[R][C];
-	    
+	    board = new int[R][C];	    
 	    for(int i = 0 ; i < R ; i++) {
 	        char[] ch = br.readLine().toCharArray();
 	        for(int j = 0 ; j < C ; j++) {
@@ -29,11 +26,13 @@ public class Main {
 	    }
 	    
 	    alphabet[board[0][0]] = true;
-	    dfs(0,0);
+	    dfs(0,0,1);
 	    System.out.println(max);
 	}
 	
-	private static void dfs(int x, int y) {
+	private static void dfs(int x, int y, int cnt) {
+	    max = Math.max(max, cnt);
+	    
 	    for(int d = 0 ; d < 4 ; d++) {
 	        int nx = x + dx[d];
 	        int ny = y + dy[d];
@@ -41,14 +40,10 @@ public class Main {
 	        if(nx >= 0 && nx < R && ny >= 0 && ny < C) {
 	            if(!alphabet[board[nx][ny]]) {
 	                alphabet[board[nx][ny]] = true;
-	                answer++;
-	                dfs(nx, ny);
+	                dfs(nx, ny, cnt + 1);
 	                alphabet[board[nx][ny]] = false;
-	                answer--;
 	            }
 	        }
 	    }
-	    
-	    max = Math.max(answer, max);
 	}
 }
