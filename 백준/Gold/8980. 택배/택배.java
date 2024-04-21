@@ -15,8 +15,8 @@ public class Main {
 	    
 	    M = Integer.parseInt(br.readLine());
 	    
-	    arr = new Info[M];
-	    for(int i = 0 ; i < M ; i++) {
+	    arr = new Info[M + 1];
+	    for(int i = 1 ; i <= M ; i++) {
 	        st = new StringTokenizer(br.readLine(), " ");
 	        int send = Integer.parseInt(st.nextToken());
 	        int receive = Integer.parseInt(st.nextToken());
@@ -24,7 +24,7 @@ public class Main {
 	        
 	        arr[i] = new Info(send, receive, box);
 	    }
-	    Arrays.sort(arr);
+	    Arrays.sort(arr, 1, M+1);
 	    
 	    boxArr = new int[N + 1];
 	    for(int i = 1 ; i < N ; i++) {
@@ -33,7 +33,7 @@ public class Main {
 	    
 	    int answer = 0;
 	    
-	    for(int i = 0 ; i < M ; i++) {
+	    for(int i = 1 ; i <= M ; i++) {
 	        Info info = arr[i];
 	        
 	        int max = Integer.MAX_VALUE;	        
@@ -67,10 +67,10 @@ class Info implements Comparable<Info> {
         this.r = r;
         this.box = box;
     }
-    
+
     @Override
     public int compareTo(Info i) {
-        if(this.s != i.s)
+        if(this.r == i.r)
             return this.s - i.s;
         return this.r - i.r;
     }
