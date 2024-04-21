@@ -1,9 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Main {
-    static final int INF = Integer.MAX_VALUE;
-    
+public class Main {    
     static int[] dx = {-1,1,0,0};
     static int[] dy = {0,0,-1,1};
     
