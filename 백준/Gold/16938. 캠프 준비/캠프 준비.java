@@ -43,7 +43,6 @@ public class Main {
 	                tmpSum += arr[i].lv;
 	            }
 	        }
-	        Collections.sort(list);
 	        
 	        if(tmpSum >= L && tmpSum <= R && (arr[list.get(list.size() -1)].lv - arr[list.get(0)].lv >= X)) {
 	            answer++;
