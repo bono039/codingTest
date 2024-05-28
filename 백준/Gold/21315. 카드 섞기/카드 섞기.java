@@ -2,74 +2,61 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static int N, K1, K2;
-    static int[] input, deck;
+    static int N;
+    static int[] arr;
+    static LinkedList<Integer> list;
     
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	    StringTokenizer st;
 	    
 	    N = Integer.parseInt(br.readLine());
+	    arr = new int[N];
 	    
-	    input = new int[N];
-	    deck = new int[N];
-	    
-	    st = new StringTokenizer(br.readLine(), " ");
+	    StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 	    for(int i = 0 ; i < N ; i++) {
-	        input[i] = Integer.parseInt(st.nextToken());
-	        deck[i] = i+1;
+	        arr[i] = Integer.parseInt(st.nextToken());
 	    }
 	    
 	    for(int i = 1 ; Math.pow(2, i) < N ; i++) {
 	        for(int j = 1 ; Math.pow(2, j) < N ; j++) {
-	            int[] arr = deck.clone();
-	            
-	            shuffle(i, arr);
-	            shuffle(j, arr);
-	            
-	            boolean flag = true;
-	            for(int k = 0 ; k < N ; k++) {
-	                if(arr[k] != input[k]) {
-	                    flag = false;
-	                    break;
-	                }
+	            list = new LinkedList<>();
+	            for(int x = 1 ; x <= N ; x++) {
+	                list.add(x);
 	            }
 	            
-	            if(flag) {
-	                K1 = i;
-	                K2 = j;
-	                break;
+	            shuffle(i);
+	            shuffle(j);
+	            
+	            if(chk()) {
+	                System.out.println(i + " " + j);
+	                return;
 	            }
 	        }
 	    }
-	    
-	    System.out.println(K1 + " " + K2);
 	}
 	
-	private static void shuffle(int k, int[] arr) {
-	    int range = N;
-	    int cnt = 0;
-	    
-	    for(int i = 1 ; i <= k+1 ; i++) {
-	        cnt = (int)Math.pow(2, k-i+1);
-	        swap(range, cnt, arr);
-	        range = cnt;
-	    }
+	private static boolean chk() {
+        for(int i = 0 ; i < N ; i++) {
+            if(arr[i] != list.get(i))
+                return false;
+        }
+        return true;
 	}
 	
-	private static void swap(int range, int cnt, int[] arr) {
-	    List<Integer> tmp = new ArrayList<>();
+	private static void shuffle(int k) {
+	    int x = 1;
 	    
-	    for(int i = range-cnt ; i < range ; i++) {
-	        tmp.add(arr[i]);
-	        arr[i] = 0;
-	    }
-	    
-	    for(int i = 0 ; i < range ; i++) {
-	        if(arr[i] != 0) {
-	            tmp.add(arr[i]);
+	    while(k - x + 1 >= 0) {
+	        int cnt = (int)Math.pow(2, k-x+1);
+	        
+	        for(int j = 0 ; j < cnt ; j++) {
+	            if(x == 1)
+	                list.addFirst(list.removeLast());
+	            else
+	                list.addFirst(list.remove((int)Math.pow(2, k-x+2) -1));
 	        }
-	        arr[i] = tmp.get(i);
+	        
+	        x++;
 	    }
 	}
 }
