@@ -11,15 +11,15 @@ public class Main {
 	    
 	    while(T --> 0) {
 	        N = Integer.parseInt(br.readLine());
-    	    dfs(N, 1, 1, 1, 0, "1");
+    	    dfs(1, 1, 1, 0, "1");
 	        sb.append("\n");
 	    }
 	    
 	    System.out.println(sb.toString());
 	}
 	
-	private static void dfs(int max, int now, int num, int sign, int sum, String str) {
-	    if(max == now) {
+	private static void dfs(int now, int num, int sign, int sum, String str) {
+	    if(now == N) {
 	        sum = sum + (num*sign);
 	        
 	        if(sum == 0)
@@ -27,8 +27,8 @@ public class Main {
 	        return;
 	    }
 	    
-	    dfs(max, now+1, num*10 + (now+1), sign, sum, str + " " + String.valueOf(now+1));
-	    dfs(max, now+1, now+1,  1, sum + (num*sign), str + "+" + String.valueOf(now+1));
-	    dfs(max, now+1, now+1, -1, sum + (num*sign), str + "-" + String.valueOf(now+1));
+	    dfs(now+1, num*10 + (now+1), sign, sum, str + " " + String.valueOf(now+1));
+	    dfs(now+1, now+1,  1, sum + (num*sign), str + "+" + String.valueOf(now+1));
+	    dfs(now+1, now+1, -1, sum + (num*sign), str + "-" + String.valueOf(now+1));
 	}
 }
