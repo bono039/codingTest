@@ -3,35 +3,31 @@ import java.util.*;
 class Solution {
     static int[] dx = {-1,1,0,0};
     static int[] dy = {0,0,-1,1};
-    
-    static String[][] places;
-    static int[] answer = new int[5];
-    
+        
     public int[] solution(String[][] places) {
-        this.places = places;
-                
-        for(int k = 0 ; k < 5 ; k++) {
-            String[] str = places[k];
+        int[] answer = new int[5];
+        
+        for(int x = 0 ; x < 5 ; x++) {
             boolean isOk = true;
             
             for(int i = 0 ; i < 5 ; i++) {
                 for(int j = 0 ; j < 5 ; j++) {
-                    if(places[k][i].charAt(j) == 'P') {
-                        if(!bfs(i, j, str))
+                    if(places[x][i].charAt(j) == 'P') {
+                        if(!bfs(i, j, places[x]))
                             isOk = false;
                     }
                 }
             }
             
-            answer[k] = isOk ? 1 : 0;                
+            answer[x] = isOk ? 1 : 0;
         }
         
         return answer;
     }
-        
+    
     private static boolean bfs(int x, int y, String[] s) {
         Queue<int[]> q = new ArrayDeque<>();
-        q.add(new int[] {x, y});
+        q.add(new int[]{x, y});
         
         while(!q.isEmpty()) {
             int[] now = q.poll();
@@ -51,7 +47,7 @@ class Solution {
             }
         }
         
-        return true;
+        return true;        
     }
     
     private static int getDist(int r1, int c1, int r2, int c2) {
