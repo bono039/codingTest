@@ -1,55 +1,55 @@
 import java.util.*;
 
 class Solution {
-    static int[] dx = {1, 0, -1}; // 남 -> 동 -> 북서 (행렬 기준)
-    static int[] dy = {0, 1, -1};
+    static int[] dx = {1,0,-1};
+    static int[] dy = {0,1,-1};
     
     static int n;
-    static int[][] map;
+    static int[][] arr;
     
     public int[] solution(int n) {
         this.n = n;
-        map = new int[n + 1][n + 1];
-        map[0][0] = 1;
+                
+        arr = new int[n][n];
+        int len = (n*(n+1))/2;
         
         int num = 1;
         int x = 0;
         int y = 0;
         int dir = 0;
+        arr[x][y] = num;
         
-        for(int i = 2 ; i <= n * n ; i++) {
+        while(num < len) {
             int nx = x + dx[dir];
             int ny = y + dy[dir];
             
-            // 방문한 적 없고, 범위를 벗어나지 않을 때만 이동 가능
-            if(map[nx][ny] == 0 && inRange(nx, ny)) {
+            if(!inRange(nx, ny) || arr[nx][ny] != 0) {
+                dir = (dir + 1) % 3;
+                nx = x + dx[dir];
+                ny = y + dy[dir];
+            }
+            
+            if(inRange(nx, ny) && arr[nx][ny] == 0) {
+                arr[nx][ny] = ++num;
                 x = nx;
                 y = ny;
-                map[x][y] = ++num;
             }
-            else {
-                dir = (dir + 1) % 3;
-            }
-        }  
+        }
         
-        
-        List<Integer> list = new ArrayList<>();
-        for(int[] i : map) {
-            for(int j : i) {
-                if(j != 0) {
-                    list.add(j);
+        int[] answer = new int[len];
+        int idx = 0;
+        for(int i = 0 ; i < n ; i++) {
+            for(int j = 0 ; j < n ; j++) {
+                if(arr[i][j] != 0) {
+                    answer[idx++] = arr[i][j];
                 }
             }
         }
         
-        int[] answer = new int[list.size()];
-        for(int i = 0 ; i < answer.length ; i++) {
-            answer[i] = list.get(i);
-        }
         return answer;
     }
     
     private static boolean inRange(int x, int y) {
-        return (0 <= x && x < n && 0 <= y && y < n);
+        return 0 <= x && x < n && 0 <= y && y < n;
     }
 }
