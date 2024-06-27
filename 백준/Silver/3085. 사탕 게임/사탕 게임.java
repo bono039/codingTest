@@ -2,83 +2,78 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static char[][] board;
     static int N;
-    static int max = 0;
+    static char[][] map;
+    static int max = 1;
     
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		N = Integer.parseInt(br.readLine());
-		board = new char[N][N];
-		
-		for(int i = 0 ; i < N ; i++) {
-		    String str = br.readLine();
-		    for(int j = 0 ; j < board[i].length ; j++) {
-		        board[i][j] = str.charAt(j);
-		    }
-		}
-		
-		for(int i = 0 ; i < N ; i++) {
-		    for(int j = 0 ; j < N - 1 ; j++) {
-		        char tmp = board[i][j];
-		        board[i][j] = board[i][j + 1];
-		        board[i][j + 1] = tmp;
-		        
-		        search();
-
-		        tmp = board[i][j];
-		        board[i][j] = board[i][j + 1];
-		        board[i][j + 1] = tmp;
-		    }
-		}
-		
-		for(int i = 0 ; i < N ; i++) {
-		    for(int j = 0 ; j < N - 1 ; j++) {
-		        char tmp = board[j][i];
-		        board[j][i] = board[j + 1][i];
-		        board[j + 1][i] = tmp;
-		        
-		        search();
-		        
-		        tmp = board[j][i];
-		        board[j][i] = board[j + 1][i];
-		        board[j + 1][i] = tmp;	        
-		    }
-		}
-		
-		System.out.println(max);
-		br.close();
+	    
+	    N = Integer.parseInt(br.readLine());
+	    map = new char[N][N];
+	    
+	    for(int i = 0 ; i < N ; i++) {
+	        String s = br.readLine();
+	        for(int j = 0 ; j < N ; j++) {
+	            map[i][j] = s.charAt(j);
+	        }
+	    }
+	    
+	    for(int i = 0 ; i < N ; i++) {
+	        for(int j = 0 ; j < N-1 ; j++) {
+	            if(map[i][j] != map[i][j+1]) {
+	                swap(i, j, i, j+1);
+	                calc();
+	                swap(i, j, i, j+1);
+	            }
+	        }
+	    }
+	    
+	    for(int i = 0 ; i < N ; i++) {
+	        for(int j = 0 ; j < N-1 ; j++) {
+	            if(map[j][i] != map[j+1][i]) {
+	                swap(j, i, j+1, i);
+	                calc();
+	                swap(j, i, j+1, i);
+	            }
+	        }
+	    }
+	    
+	    System.out.println(max);
 	}
 	
-	public static void swap(char a, char b) {
-	    char tmp = a;
-	    a = b;
-	    b = tmp;
+	private static void swap(int x1, int y1, int x2 ,int y2) {
+	    char tmp = map[x1][y1];
+	    map[x1][y1] = map[x2][y2];
+	    map[x2][y2] = tmp;
 	}
 	
-	public static void search() {
+	private static void calc() {
 	    for(int i = 0 ; i < N ; i++) {
 	        int cnt = 1;
-	        for(int j = 0 ; j < N - 1 ; j++) {
-	            if(board[i][j] == board[i][j + 1])
+	        
+	        for(int j = 0 ; j < N-1 ; j++) {
+	            if(map[i][j] == map[i][j+1]) {
 	                cnt++;
-	            else
+	                max = Math.max(max, cnt);
+	            }
+	            else {
 	                cnt = 1;
-	                
-	            max = Math.max(max, cnt);
+	            }
 	        }
 	    }
 	    
 	    for(int i = 0 ; i < N ; i++) {
 	        int cnt = 1;
-	        for(int j = 0 ; j < N - 1 ; j++) {
-	            if(board[j][i] == board[j + 1][i])
+	        
+	        for(int j = 0 ; j < N-1 ; j++) {
+	            if(map[j][i] == map[j+1][i]) {
 	                cnt++;
-	            else
+	                max = Math.max(max, cnt);
+	            }
+	            else {
 	                cnt = 1;
-	                
-	            max = Math.max(max, cnt);
+	            }
 	        }
 	    }
 	}
