@@ -1,35 +1,37 @@
 import java.util.*;
 
-class Solution {    
+class Solution {
     public int solution(String s) {
-        int answer = s.length();
-        int len = 1;
+        int len = s.length();
+        int answer = len;
         
-        for(int i = 1 ; i <= s.length() / 2 ; i++) {  
-            StringBuilder sb = new StringBuilder();
-            String base = s.substring(0,i);
+        for(int i = 1 ; i <= len/2 ; i++) {
+            int cnt = 0;
+            String tmp = "";
+            String target = s.substring(0, i);
             
-            for(int j = i ; j <= s.length() ; j += i) {
-                int eIdx = Math.min(j+i, s.length());
-                String next = s.substring(j, eIdx);
+            for(int j = 0 ; j <= len ; j += i) {
+                String ss = s.substring(j, Math.min(j+i, len));
                 
-                if(base.equals(next)) {
-                    len++;
+                if(ss.equals(target)) {
+                    cnt++;
                 }
                 else {
-                    if(len >= 2) {
-                        sb.append(len);
+                    if(cnt >= 2) {
+                        tmp += cnt;
                     }
-                    
-                    sb.append(base);
-                    base = next;
-                    len = 1;
-                }
+                    tmp += target;
+                    target = ss;
+                    cnt = 1;
+                }                
             }
             
-            sb.append(base);
-            answer = Math.min(answer, sb.length());
-        }       
+            if(cnt >= 2) {
+                tmp += cnt;
+            }
+            tmp += target;
+            answer = Math.min(answer, tmp.length());
+        }
         
         return answer;
     }
