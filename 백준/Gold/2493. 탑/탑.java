@@ -4,6 +4,7 @@ import java.io.*;
 public class Main {
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	    StringBuilder sb = new StringBuilder();
 	    
 	    Stack<int[]> stack = new Stack<>();
 	    
@@ -15,17 +16,19 @@ public class Main {
 	        
 	        while(!stack.isEmpty()) {
 	            if(stack.peek()[1] >= top) {
-	                System.out.print(stack.peek()[0] + " ");
+	                sb.append(stack.peek()[0] + " ");
 	                break;
 	            }
 	            stack.pop();
 	        }
 	        
 	        if(stack.isEmpty()) {
-	            System.out.print("0 ");
+	            sb.append("0 ");
 	        }
 	        
 	        stack.push(new int[] {i, top});
 	    }
+	    
+	    System.out.println(sb.toString());
 	}
 }
