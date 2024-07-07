@@ -2,33 +2,39 @@ import java.util.*;
 
 class Solution {
     static int[][] arr;
-    static int[] answer = new int[2];
+    static int len;
+    static int zeroCnt = 0, oneCnt = 0;
     
     public int[] solution(int[][] arr) {
         this.arr = arr;
+        len = arr.length;
         
-        divide(0, 0, arr.length);        
-        return answer;
+        solve(0, 0, len);
+        return new int[]{zeroCnt, oneCnt};
     }
     
-    private static void divide(int x, int y, int size) {
-        if(zip(x, y, size)) {
-            if(arr[x][y] == 0)  answer[0]++;
-            else                answer[1]++;
+    private static void solve(int x, int y, int size) {
+        if(check(x, y, size)) {
+            if(arr[x][y] == 0)      zeroCnt++;
+            else if(arr[x][y] == 1) oneCnt++;
             
             return;
         }
         
-        divide(x,          y,          size/2);
-        divide(x,          y + size/2, size/2);
-        divide(x + size/2, y,          size/2);
-        divide(x + size/2, y + size/2, size/2);
+        int newSize = size/2;
+        
+        solve(x,         y,         newSize);
+        solve(x+newSize, y,         newSize);
+        solve(x,         y+newSize, newSize);
+        solve(x+newSize, y+newSize, newSize);
     }
     
-    private static boolean zip(int x, int y, int size) {        
-        for(int i = x ; i < x + size ; i++) {
-            for(int j = y ; j < y + size ; j++) {
-                if(arr[i][j] != arr[x][y])
+    private static boolean check(int x, int y, int size) {
+        int v = arr[x][y];
+        
+        for(int i = x ; i < x+size ; i++) {
+            for(int j = y ; j < y+size ; j++) {
+                if(arr[i][j] != v)
                     return false;
             }
         }
