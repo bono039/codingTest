@@ -1,24 +1,32 @@
 import java.util.*;
 
-class Solution {    
-    static String[] vowels = {"A", "E", "I", "O", "U"};
-    static List<String> list = new ArrayList<>();   // 알파벳 모음 집합
+class Solution {
+    static String[] words = {"A", "E", "I", "O", "U"};
+    static String word;
+    static List<String> list = new ArrayList<>();
     
     public int solution(String word) {
+        this.word = word;
         
-        comb("", 0);
+        dfs(0, 0, "");
+        Collections.sort(list);
         
-        return list.indexOf(word);
+        return list.indexOf(word) + 1;
     }
     
-    // 조합 메소드
-    private static void comb(String str, int depth) {
-        list.add(str);
+    private static void dfs(int idx, int cnt, String s) {
+        if(cnt == 5) {
+            if(!list.contains(s)) {
+                list.add(s);         
+            }
+            return;
+        }
         
-        if(depth == 5) return;
-        
-        for(int i = 0 ; i < vowels.length ; i++) {
-            comb(str + vowels[i], depth + 1);  // 재귀 호출
+        for(int i = 0 ; i < 5 ; i++) {
+            dfs(i + 1, cnt + 1, s + words[i]);
+            
+            if(!list.contains(s + words[i])) 
+                list.add(s + words[i]);
         }
     }
 }
