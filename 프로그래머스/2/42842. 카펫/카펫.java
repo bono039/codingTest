@@ -1,17 +1,17 @@
 import java.util.*;
 
-class Solution {    
-    public int[] solution(int brown, int yellow) {
+class Solution {
+    public int[] solution(int brown, int yellow) {        
         int[] answer = new int[2];
         
-        for(int i = yellow ; i >= 1 ; i--) {
-            if(yellow % i == 0) {                
-                int sum = (i + yellow / i) *2 + 4;
-                
-                if(sum == brown) {
-                    answer[0] = Math.max(i+2, yellow/i +2);
-                    answer[1] = Math.min(i+2, yellow/i +2);
-                    break;
+        for(int i = 1 ; i <= brown ; i++) {
+            for(int j = 1 ; j <= yellow ; j++) {
+                if(2 * i + 2 * j == (brown - 4) && (i * j == yellow)) {
+                    if(i >= j) {
+                        answer[0] = i+2;
+                        answer[1] = j+2;
+                        break;
+                    }
                 }
             }
         }
