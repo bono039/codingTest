@@ -1,53 +1,52 @@
 import java.util.*;
-// 조합 백트래킹
+
 class Solution {
     static String numbers;
-    static List<Integer> answer = new ArrayList<>();  // 소수 집합 (중복 제거)
-    static boolean[] visited = new boolean[7];
+    static int len;
+    
+    static Set<Integer> set = new HashSet<>();
+    static boolean[] visited;
     
     public int solution(String numbers) {
         this.numbers = numbers;
+        len = numbers.length();
+        visited = new boolean[len];
         
-        // 몇 자리 수 만들건지
-        for(int i = 0 ; i < numbers.length() ; i++) {
-            back("", 0, i + 1);
+        for(int i = 1 ; i <= len ; i++) {
+            dfs(0, i, "");
         }
-        return answer.size();
+        
+        return set.size();
     }
     
-    private static void back(String str, int depth, int goal) {
-        if(depth == goal) {
-            int tmp = Integer.parseInt(str);
+    private static void dfs(int cnt, int target, String s) {
+        if(cnt == target) {
+            int num = Integer.parseInt(s);
             
-            if(!answer.contains(tmp) && isPrime(tmp)) {
-                answer.add(tmp);
-                System.out.println(tmp);
+            if(isPrime(num)) {
+                set.add(num);
+                return;
             }
-            return;
         }
         
-        // numbers의 한 글자씩 브루트포스....
-        for(int i = 0 ; i < numbers.length() ; i++) {
-            if(!visited[i]) {
-                str += numbers.charAt(i);   // 임시 변수에 붙이며 숫자 조합 생성
-                
+        for(int i = 0 ; i < len ; i++) {
+            if(!visited[i]){
+                s += numbers.charAt(i);
                 visited[i] = true;
-                back(str, depth + 1, goal);
+                dfs(i + 1 , target, s);
+                
                 visited[i] = false;
-                
-                str = str.substring(0, str.length() - 1);   // 이전 상태로 돌아가고자 마지막 자리 숫자 제외하고 갱신
+                s = s.substring(0, s.length() - 1);   
             }
-            
-                
         }
     }
     
-    // 소수 판별 메소드
     private static boolean isPrime(int num) {
-        if(num <= 1) return false;
+        if(num <= 1)    return false;
         
-        for(int i = 2 ; i * i <= num ; i++) {
-            if(num % i == 0)    return false;
+        for(int i = 2 ; i <= (int)Math.sqrt(num) ; i++) {
+            if(num % i == 0)
+                return false;
         }
         return true;
     }
