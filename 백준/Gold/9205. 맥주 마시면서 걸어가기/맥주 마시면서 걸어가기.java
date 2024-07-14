@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static int T;
+    static int T, N, sx, sy, dx, dy;
     static StringBuilder sb = new StringBuilder();
     
 	public static void main(String[] args) throws IOException {
@@ -11,7 +11,7 @@ public class Main {
 	    
 	    T = Integer.parseInt(br.readLine());
 	    while(T --> 0) {
-	        int N = Integer.parseInt(br.readLine());
+	        N = Integer.parseInt(br.readLine());
 	        
 	        List<int[]> list = new ArrayList<>();
 	        for(int i = 0 ; i < N+2 ; i++) {
@@ -19,34 +19,51 @@ public class Main {
 	            int x = Integer.parseInt(st.nextToken());
 	            int y = Integer.parseInt(st.nextToken());
 	            
-	            list.add(new int[]{x,y});
-	        }
-	        
-	        boolean[][] flag = new boolean[N+2][N+2];
-	        for(int i = 0 ; i < N+2 ; i++) {
-	            for(int j = 0 ; j < N+2 ; j++) {
-	                int[] now = list.get(i);
-	                int[] next = list.get(j);
-	                
-	                int dist = Math.abs(now[0] - next[0]) + Math.abs(now[1] - next[1]);
-	                
-	                if(dist <= 1000)
-	                    flag[i][j] = true;
+	            if(i == 0) {
+	                sx = x;
+	                sy = y;
+	            }
+	            else if(i == N+1) {
+	                dx = x;
+	                dy = y;
+	            }
+	            else {
+	                list.add(new int[]{x,y});
 	            }
 	        }
 	        
-	        for(int k = 0 ; k < N+2 ; k++) {
-	            for(int i = 0 ; i < N+2 ; i++) {
-	                for(int j = 0 ; j < N+2 ; j++) {
-	                    if(flag[i][k] && flag[k][j])
-	                        flag[i][j] = true;
-	                }
-	            }
-	        }
-	        
-	        sb.append(flag[0][N+1] ? "happy\n" : "sad\n");
+	        sb.append(bfs(list) ? "happy\n" : "sad\n");
 	    }
-	    
 	    System.out.println(sb.toString());
 	}
+	
+	private static boolean bfs(List<int[] > list) {
+        boolean[] visited = new boolean[N];
+        
+        Queue<int[]> q = new ArrayDeque<>();
+        q.add(new int[] {sx, sy});
+        
+        while(!q.isEmpty()) {
+            int[] now = q.poll();
+            
+            int px = now[0];
+            int py = now[1];
+            if(Math.abs(px-dx) + Math.abs(py-dy) <= 1000) {
+                return true;
+            }
+            
+            for(int i = 0 ; i < N ; i++) {
+                if(!visited[i]) {
+                    int nx = list.get(i)[0];
+                    int ny = list.get(i)[1];
+                    int dist = Math.abs(px-nx) + Math.abs(py-ny);
+                    if(dist <= 1000) {
+                        visited[i] = true;
+                        q.add(new int[] {nx, ny});
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
