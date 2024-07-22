@@ -8,8 +8,7 @@ class Solution {
             map.put(want[i], number[i]);
         }        
         
-        int answer = 0;
-        
+        int answer = 0;        
         for(int i = 0 ; i <= discount.length - 10 ; i++) {
             Map<String, Integer> tmpMap = new HashMap<>();
             
@@ -25,7 +24,8 @@ class Solution {
                 }
             }
             
-            if(b)   answer++;
+            if(b)
+                answer++;
         }      
         
         return answer;
