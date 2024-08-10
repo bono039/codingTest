@@ -39,6 +39,7 @@ class Person {
         this.val = val;
     }
     
+    // 재귀함수
     public void calc(int val) {
         int profitToParent = val / 10;
         this.val += (val - profitToParent);
