@@ -6,7 +6,7 @@ class Solution {
     
     static String[] grid;
     static int r, c;
-    static boolean[][][] visited;
+    static boolean[][][] visited;   // 행, 열, 빛 쏜 방향
     
     static List<Integer> ans = new ArrayList<>();
     
@@ -40,11 +40,13 @@ class Solution {
             cnt++;
             visited[i][j][d] = true;
             
+            // 좌회전과 우회전
             if(grid[i].charAt(j) == 'L')
-                d = (d+3) % 4;  // 좌회전
+                d = (d+3) % 4;
             if(grid[i].charAt(j) == 'R')
-                d = (d+1) % 4;  // 우회전
+                d = (d+1) % 4;
             
+            // 빛 쏘고 다음에 도착하는 행과 열 재할당
             i = (i + dx[d] + r) % r;
             j = (j + dy[d] + c) % c;
         }
