@@ -2,58 +2,55 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static int N;
-    static List<Node>[] list;
+    static int n, max = 0;
+    static ArrayList<Node>[] graph;
     static boolean[] visited;
-    static int answer = 0;
     
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	    StringTokenizer st;
 	    
-	    N = Integer.parseInt(br.readLine());
+	    n = Integer.parseInt(br.readLine());	    
+	    graph = new ArrayList[n+1];
+	    for(int i = 0 ; i <= n ; i++) {
+	        graph[i] = new ArrayList<>();
+	    }
 	    
-	    list = new ArrayList[N+1];
-	    for(int i = 0 ; i <= N ; i++)
-	        list[i] = new ArrayList<>();
-	    
-	    for(int i = 0 ; i < N-1 ; i++) {
+	    for(int i = 0 ; i < n-1 ; i++) {
 	        st = new StringTokenizer(br.readLine(), " ");
-	        int from = Integer.parseInt(st.nextToken());
-	        int to = Integer.parseInt(st.nextToken());
-	        int v = Integer.parseInt(st.nextToken());
+	        int x = Integer.parseInt(st.nextToken());
+	        int y = Integer.parseInt(st.nextToken());
+	        int dist = Integer.parseInt(st.nextToken());
 	        
-	        list[from].add(new Node(to, v));
-	        list[to].add(new Node(from, v));
+	        graph[x].add(new Node(y, dist));
+	        graph[y].add(new Node(x, dist));
 	    }
 	    
-	    for(int i = 1 ; i <= N ; i++) {
-            visited = new boolean[N+1];
-            visited[i] = true;
-            dfs(i, 0);
+	    for(int i = 1 ; i <= n ; i++) {
+	        visited = new boolean[n+1];
+	        dfs(i, 0);
 	    }
 	    
-	    System.out.println(answer);
+	    System.out.println(max);
 	}
 	
 	private static void dfs(int idx, int sum) {
-	    answer = Math.max(answer, sum);
+	    visited[idx] = true;
+	    max = Math.max(max, sum);
 	    
-        for(Node next : list[idx]) {
-            if(!visited[next.idx]) {
-                visited[next.idx] = true;
-                dfs(next.idx, sum + next.v);
-                visited[next.idx] = false;       
-            }
-        }
+	    for(Node now : graph[idx]) {
+	        if(!visited[now.idx]) {
+	            dfs(now.idx, sum + now.val);
+	        }
+	    }
 	}
 }
 
 class Node {
-    int idx, v;
+    int idx, val;
     
-    public Node(int idx, int v) {
+    public Node(int idx, int val) {
         this.idx = idx;
-        this.v = v;
+        this.val = val;
     }
 }
