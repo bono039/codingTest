@@ -1,48 +1,47 @@
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-	public static void main(String[] args) {		
-		Scanner sc = new Scanner(System.in);
-		
-		int A, B, X, Y;
-		
-		A = sc.nextInt();
-		B = sc.nextInt();
-		X = sc.nextInt();
-		Y = sc.nextInt();
-		
-		int[][] arrA = new int[A][B];
-		int[][] arrB = new int[A+X][B+Y];
-		
-		for(int i=0; i<A+X; i++) {
-			for(int j=0; j<B+Y; j++) {
-				arrB[i][j] = sc.nextInt();
-			}
+	public static void main(String[] args) throws IOException {
+	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	    StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+	    
+	    int H = Integer.parseInt(st.nextToken());
+	    int W = Integer.parseInt(st.nextToken());
+	    int X = Integer.parseInt(st.nextToken());
+	    int Y = Integer.parseInt(st.nextToken());
+	    
+	    int[][] B = new int[H+X][W+Y];
+	    for(int i = 0 ; i < H+X ; i++) {
+	        st = new StringTokenizer(br.readLine(), " ");
+	        for(int j = 0 ; j < W+Y ; j++) {
+	            B[i][j] = Integer.parseInt(st.nextToken());
+	        }
+	    }
+	    
+	    int[][] A = new int[H][W];
+	    for(int i = 0 ; i < H ; i++) {
+	        for(int j = 0 ; j < W ; j++)
+	            A[i][j] = B[i][j];
+	    }
+	    
+	    for(int i = X ; i < H ; i++) {
+	        for(int j = 0 ; j < Y ; j++)
+	            A[i][j] = B[i][j];
+	    }
+	    
+		for(int i = X ; i < H ; i++) {
+			for(int j = Y ; j < W ; j++)
+				A[i][j] = B[i][j] - A[i-X][j-Y];
 		}
-		
-		for(int i=0; i<X; i++) {
-			for(int j = 0; j<B; j++) {
-				arrA[i][j] = arrB[i][j];
-			}
-		}
-		for(int i=X; i<A; i++) {
-			for(int j=0; j<Y; j++) {
-				arrA[i][j] = arrB[i][j];
-			}
-		}
-		
-		for(int i=X; i<A; i++) {
-			for(int j=Y; j<B; j++) {
-				arrA[i][j] = arrB[i][j] - arrA[i-X][j-Y];
-			}
-		}				
-		
-		for(int i=0; i<A; i++) {
-			for(int j=0; j<B; j++) {
-				System.out.print(arrA[i][j]+" ");
-			}
-			System.out.println();
-		}
+	    
+	    StringBuilder sb = new StringBuilder();
+	    for(int[] i : A) {
+	        for(int j : i) {
+	            sb.append(j + " ");
+	        }
+	        sb.append("\n");
+	    }
+	    System.out.println(sb.toString());
 	}
-
 }
