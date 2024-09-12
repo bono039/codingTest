@@ -1,6 +1,5 @@
 import java.util.*;
 import java.io.*;
-import java.math.*;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
@@ -10,15 +9,29 @@ public class Main {
 	    int N = Integer.parseInt(br.readLine());
 	    for(int i = 0 ; i < N ; i++) {
 	        long x = Long.parseLong(br.readLine());
-	        
-            BigInteger pNum = new BigInteger(String.valueOf(x));
             
-	        if(pNum.isProbablePrime(10)) {
-	            sb.append(pNum + "\n");
-	        }
-	        else {
-	            sb.append(pNum.nextProbablePrime() + "\n");
-	        }
+            if(x <= 2) {
+                sb.append(2).append("\n");
+                continue;
+            }
+    
+    	    while(true) {
+                boolean flag = true;
+                
+                for(int j = 2 ; j <= (int)(Math.sqrt(x)) ; j++) {
+                    if(x % j == 0) {
+                        flag = false;
+                        break;
+                    }
+                }
+                
+                if(flag) {
+                    sb.append(x).append("\n");
+                    break;
+                }
+                
+                x++;
+    	    }
 	    }
 	    
 	    System.out.println(sb.toString());
